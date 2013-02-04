@@ -10,6 +10,12 @@ using namespace std;
 vector<Ball> balls;
 Ball cueBall;
 
+struct mouse {
+  int x;
+  int y;
+  bool dragging;
+} mouse;
+
 // displays a ball object on the screen
 void DisplayBall(Ball toDisplay) {
 
@@ -57,6 +63,20 @@ void Display() {
 void Mouse(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON) {
     if (state == GLUT_DOWN) {
+      // only save location if this is the first down in a drag
+      if (!mouse.dragging) {
+        mouse.dragging = true;
+        mouse.x = x;
+        mouse.y = y;
+      }
+    } else if (state == GLUT_UP) {
+      if (mouse.dragging) {
+        // we are finished with a drag, we now have the cue hit
+        mouse.dragging = false;
+        cueBall.velocity.x = mouse.x - x;
+        cueBall.velocity.y = mouse.y - y;
+        cout << "Cueball hit with " << cueBall.velocity.x <<  " X and " << cueBall.velocity.y << " Y\n";
+      }
     }
   }
   glutPostRedisplay();
@@ -84,6 +104,9 @@ void Init(int argc, char** argv) {
 
 int main(int argc, char** argv) {
   Init(argc, argv);
+
+  // initialize 
+  mouse.dragging = false;
 
   // make a white cue  ball
   cueBall = Ball(-50, 0, WHITE);
