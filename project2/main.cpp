@@ -1,11 +1,22 @@
 #include <math.h>
 #include <iostream>
+#include <vector>
+
 #include "./common.h"
+#include "./ball.h"
 
 using namespace std;
 
+vector<Ball> balls;
+Ball cueBall();
+
 void Display() {
   glClear(GL_COLOR_BUFFER_BIT);
+
+  glBegin(GL_POINTS);
+  glColor3f(0.0, 0.0, 0.0);
+  glVertex2f(0, 0);
+  glEnd();
 
   glFlush();
 }
