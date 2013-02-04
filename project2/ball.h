@@ -20,7 +20,7 @@ public:
   struct velocity {
     int x;
     int y;
-  };
+  } velocity;
 
   Ball();
 
