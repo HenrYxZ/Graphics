@@ -1,3 +1,5 @@
+#include <math.h>
+
 #ifndef __GEOM2_H__
 #define __GEOM2_H__
 
