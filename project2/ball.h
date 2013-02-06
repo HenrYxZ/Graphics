@@ -34,6 +34,10 @@ public:
   // returns true if it moved, false if not
   bool move();
 
+  // checks for collision with the other ball, then updates
+  // the velocity vector accordingly if a collision has occured
+  // it then returns true if a collision has occured, and false if not
+  bool collide(Ball other);
 };
 
 #endif

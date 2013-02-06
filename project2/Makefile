@@ -27,9 +27,9 @@ endif
 
 # To add a cpp file called myfile.cpp see comments below
 
-billiards: main.o ball.o # myfile.o 
+billiards: main.o ball.o geom2.o # myfile.o 
 	#./cpplint.py --filter=-readability/todo,-readability/streams,-runtime/threadsafe_fn,-legal,-build/namespaces,-build/header_guard *.cpp *.h
-	${CC} ${CFLAGS} $(INCLUDE) -o billiards main.o ball.o ${LIBDIR} ${LIBS}
+	${CC} ${CFLAGS} $(INCLUDE) -o billiards main.o ball.o geom2.o ${LIBDIR} ${LIBS}
 #	${CC} ${CFLAGS} $(INCLUDE) -o billiards main.o ball.o myfile.o ${LIBDIR} ${LIBS} # replace the previous line with this line
 
 main.o: main.cpp common.h geom2.h
@@ -37,6 +37,9 @@ main.o: main.cpp common.h geom2.h
 
 ball.o: ball.cpp ball.h common.h geom2.h
 	${CC} -c ${CFLAGS} $(INCLUDE) ball.cpp
+
+geom2.o: geom2.cpp geom2.h
+	${CC} -c ${CFLAGS} $(INCLUDE) geom2.cpp
 
 # add the following lines
 # myfile.o: myfile.cpp myfile.h # any additional dependencies

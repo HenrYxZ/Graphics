@@ -3,4 +3,7 @@
 
 // Handy geometry classes and functions
 
+// computes the distance between two two-dimensional points
+int distance(int xA, int yA, int xB, int yB);
+
 #endif
