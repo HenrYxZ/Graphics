@@ -112,11 +112,16 @@ void Idle() {
 
       // I am still unsure if we need to redisplay after both
       // a collision and a move, it may be redundant
-      if (ballcollided) {
+      if (ballCollided) {
         redisplayNeeded = true;
       }
     }
   }
+
+  // TODO: Lastly, we will want to check for collisions with a wall for each
+  // ball we can technically do this in the first for loop of this function,
+  // but I vote that we put it here for readability purposes. However, let's
+  // get the other stuff working before worrying about this
 
   // we only want to post a redisplay if we really need it
   if (redisplayNeeded) {
