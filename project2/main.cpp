@@ -51,7 +51,7 @@ void Display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   // display all of the balls
-  for (int i = 0; i < balls.size(); i += 1) {
+  for (int i = 0; i < balls.size(); ++i) {
     DisplayBall(balls[i]);
   }
 
@@ -71,9 +71,13 @@ void Mouse(int button, int state, int x, int y) {
       if (mouse.dragging) {
         // we are finished with a drag, we now have the cue hit
         mouse.dragging = false;
-        cueBall.velocity.x = mouse.x - x;
-        cueBall.velocity.y = mouse.y - y;
-        cout << "Cueball hit with " << cueBall.velocity.x <<  " X and " << cueBall.velocity.y << " Y\n";
+
+        // TODO: update this to modify the actual velocity of the ball using the
+        // to be created velocity class rather than my ugly struct
+        balls[0].velocity.x = mouse.x - x;
+        balls[0].velocity.y = mouse.y - y;
+        cout << "Cueball hit with " << balls[0].velocity.x <<  " X and " <<
+          balls[0].velocity.y << " Y\n";
       }
     }
   }
@@ -87,13 +91,30 @@ void Idle() {
   bool redisplayNeeded = false;
 
   // first, we're going to move all of the balls if they need to be moved
-  for (int i = 0; i < balls.size(); i += 1) {
+  for (int i = 0; i < balls.size(); ++i) {
     bool ballMoved;
 
     ballMoved = balls[i].move();
 
     if (ballMoved) {
       redisplayNeeded = true;
+    }
+  }
+
+  // next, we need to check for collisions among all pairs of balls
+  for (int i = 0; i < balls.size(); ++i) {
+    // the bounds of these two loops will properly check all pairs once
+    // and does not check both (i, j) and (j, i).
+    for (int j = i + 1; j < balls.size(); ++j) {
+      bool ballCollided;
+
+      ballCollided = balls[i].collide(balls[j]);
+
+      // I am still unsure if we need to redisplay after both
+      // a collision and a move, it may be redundant
+      if (ballcollided) {
+        redisplayNeeded = true;
+      }
     }
   }
 
