@@ -1,6 +1,9 @@
+#include <iostream>
 #include "./ball.h"
 
 // Handy ball class implementation
+
+using namespace std;
 
 Ball::Ball() {
   this->x = 0;
@@ -15,12 +18,20 @@ Ball::Ball(int x, int y, Color color) {
 }
 
 bool Ball::move() {
-  // not implemented yet
+  // TODO: implement
+
+  // debug spew to ensure correct functionality
+  cout << "Ball at (" << x << ", " << y << ") moved.\n";
+
   return false;
 }
 
 bool Ball::collide(Ball other) {
   bool hasCollided = false;
+
+  // debug spew to ensure correct functionality
+  cout << "Ball at (" << x << ", " << y << ") has collided with " <<
+    "Ball at (" << other.x << ", " << other.y << ")\n"; 
 
   // first, we need to check for a collision.
   if (distance(x, y, other.x, other.y) <= (BALL_RADIUS * 2)) {
@@ -28,7 +39,7 @@ bool Ball::collide(Ball other) {
   }
 
   if (hasCollided) {
-    // simulate a collision by updating the velocity vectors according
+    // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
   }
 
