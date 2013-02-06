@@ -13,3 +13,8 @@ Ball::Ball(int x, int y, Color color) {
   this->y = y;
   this->color = color;
 }
+
+bool Ball::Move() {
+  // not implemented yet
+  return false;
+}

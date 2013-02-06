@@ -8,7 +8,6 @@
 using namespace std;
 
 vector<Ball> balls;
-Ball cueBall;
 
 struct mouse {
   int x;
@@ -51,8 +50,7 @@ void DisplayBall(Ball toDisplay) {
 void Display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
-  DisplayBall(cueBall);
-
+  // display all of the balls
   for (int i = 0; i < balls.size(); i += 1) {
     DisplayBall(balls[i]);
   }
@@ -82,6 +80,29 @@ void Mouse(int button, int state, int x, int y) {
   glutPostRedisplay();
 }
 
+// The idle function is called when no window events are fired
+// we will use it to compute any possible movements that have happened
+// on the screen, and post a redisplay if movement has occured
+void Idle() {
+  bool redisplayNeeded = false;
+
+  // first, we're going to move all of the balls if they need to be moved
+  for (int i = 0; i < balls.size(); i += 1) {
+    bool ballMoved;
+
+    ballMoved = balls[i].move();
+
+    if (ballMoved) {
+      redisplayNeeded = true;
+    }
+  }
+
+  // we only want to post a redisplay if we really need it
+  if (redisplayNeeded) {
+    glutPostRedisplay();
+  }
+}
+
 void Init(int argc, char** argv) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -91,6 +112,7 @@ void Init(int argc, char** argv) {
   glutCreateWindow("Billiards");
   glutMouseFunc(Mouse);
   glutDisplayFunc(Display);
+  glutIdleFunc(Idle);
 
   glClearColor(0.0, 1.0, 0.0, 1.0);
   glColor3f(1.0, 0.0, 0.0);
@@ -108,8 +130,9 @@ int main(int argc, char** argv) {
   // initialize 
   mouse.dragging = false;
 
-  // make a white cue  ball
-  cueBall = Ball(-50, 0, WHITE);
+  // make a white cue  ball, the cueball will always occupy
+  // location 0 of the balls vector
+  balls.push_back(Ball(-50, 0, WHITE));
 
   // make some game balls to be knocked around
   balls.push_back(Ball(50, 25, RED));
