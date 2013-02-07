@@ -118,10 +118,19 @@ void Idle() {
     }
   }
 
-  // TODO: Lastly, we will want to check for collisions with a wall for each
+  // Lastly, we will want to check for collisions with a wall for each
   // ball we can technically do this in the first for loop of this function,
-  // but I vote that we put it here for readability purposes. However, let's
-  // get the other stuff working before worrying about this
+  // but I vote that we put it here for readability purposes.
+  for (int i = 0; i < balls.size(); ++i) {
+    bool ballCollided = false;
+
+    ballCollided = balls[i].collideWithWall();
+
+    // I'm still unsure if we need to redisplay here
+    if (ballCollided) {
+      redisplayNeeded = true;
+    }
+  }
 
   // we only want to post a redisplay if we really need it
   if (redisplayNeeded) {
