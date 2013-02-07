@@ -6,6 +6,12 @@
 #define BALL_RADIUS 10
 #define FRICTION 0.5
 
+// the following four definitions specify the boundary of the four walls
+#define TOP_WALL 200
+#define BOTTOM_WALL -200
+#define RIGHT_WALL 150
+#define LEFT_WALL -150
+
 enum Color { WHITE, BLACK, RED, GREEN, BLUE }; 
 
 // A handy Ball class
@@ -38,6 +44,11 @@ public:
   // the velocity vector accordingly if a collision has occured
   // it then returns true if a collision has occured, and false if not
   bool collide(Ball other);
+
+  // checks for collision with the walls as defined above
+  // then updates the velocity vector accordingly if a collision
+  // has occured and returns true if an update happened and false if not
+  bool collideWithWall();
 };
 
 #endif
