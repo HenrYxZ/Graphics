@@ -45,3 +45,22 @@ bool Ball::collide(Ball other) {
 
   return hasCollided;
 }
+
+bool Ball::collideWithWall() {
+  bool hasCollided = false;
+
+  // debug spew to ensure correct functinality
+  cout << "Ball at (" << x << ", " << y << ") has collided with a wall\n";
+
+  if ((x <= LEFT_WALL) || (x >= RIGHT_WALL) ||
+    (y <= BOTTOM_WALL) || (y >= TOP_WALL)) {
+    hasCollided = true;
+  }
+
+  if (hasCollided) {
+    // TODO: handle collision with a wall by reflecting the current velocity vector
+    // across the normal to the wall it collided with and reversing its direction
+  }
+
+  return hasCollided;
+}
