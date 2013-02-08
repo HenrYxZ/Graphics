@@ -24,10 +24,8 @@ public:
   // the color of the ball as defined by the color enumeration
   Color color;
 
-  struct velocity {
-    int x;
-    int y;
-  } velocity;
+  // the ball's motion vector defining velocity
+  Velocity velocity;
 
   Ball();
 

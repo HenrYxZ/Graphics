@@ -9,12 +9,14 @@ Ball::Ball() {
   this->x = 0;
   this->y = 0;
   this->color = WHITE;
+  this->velocity = Velocity();
 }
 
 Ball::Ball(int x, int y, Color color) {
   this->x = x;
   this->y = y;
   this->color = color;
+  this->velocity = Velocity();
 }
 
 bool Ball::move() {
