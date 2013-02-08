@@ -72,8 +72,6 @@ void Mouse(int button, int state, int x, int y) {
         // we are finished with a drag, we now have the cue hit
         mouse.dragging = false;
 
-        // TODO: update this to modify the actual velocity of the ball using the
-        // to be created velocity class rather than my ugly struct
         balls[0].velocity.setXY((mouse.x - x), (mouse.y - y));
         cout << "Cueball hit with " << balls[0].velocity.getX() <<
           " X and " << balls[0].velocity.getY() << " Y\n";
