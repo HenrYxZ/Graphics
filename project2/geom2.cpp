@@ -46,7 +46,11 @@ void Velocity::slow(int t) {
 
 void Velocity::setDirectionRad() {
   if(x == 0) {
-    directionRad = 3.14159 / 2;
+    if(y >= 0) {
+      directionRad = 3.14159 / 2;
+    } else {
+      directionRad = -3.14159 / 2;
+    }
   } else {
     directionRad = atan(y/x);
   }
