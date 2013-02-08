@@ -30,6 +30,7 @@ class Velocity {
   int getX() { return x; }
   int getY() { return y; }
   int getMagnitude() { return magnitude; }
+  int getDirection() { return directionRad; }
   bool moving() { return (magnitude > 0); }
   void setXY(int x, int y);
   void slow(int t);
@@ -39,7 +40,7 @@ class Velocity {
   float directionRad;
   int magnitude;
   void setMagnitude() { magnitude = ALPHA * pythagorean(x, y); }
-  void setDirectionRad() { directionRad = atan(y/x); }
+  void setDirectionRad();
   void updateXY();
 };
 

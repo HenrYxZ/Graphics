@@ -21,7 +21,9 @@ Ball::Ball(int x, int y, Color color) {
 
 bool Ball::move() {
   // TODO: implement
-
+  if(velocity.getMagnitude() <= 0) {
+    return false;
+  }
   // debug spew to ensure correct functionality
   cout << "Ball at (" << x << ", " << y << ") moved.\n";
 

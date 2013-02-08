@@ -17,10 +17,10 @@ float DegtoRad(float deg) {
 }
 
 Velocity::Velocity() {
-  this->x = 1;
-  this->y = 1;
-  Velocity::setDirectionRad();
-  Velocity::setMagnitude();
+  this->x = 0;
+  this->y = 0;
+  this->directionRad = 0;
+  this->magnitude = 0;
 }
 
 Velocity::Velocity(int x, int y) {
@@ -42,6 +42,14 @@ void Velocity::setXY(int x, int y) {
 void Velocity::slow(int t) {
   magnitude += ACCELERATION * t;
   updateXY();
+}
+
+void Velocity::setDirectionRad() {
+  if(x == 0) {
+    directionRad = 3.14159 / 2;
+  } else {
+    directionRad = atan(y/x);
+  }
 }
 
 // After slowing/reducing the magnitude, updates x and y

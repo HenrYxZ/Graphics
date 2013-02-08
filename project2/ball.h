@@ -27,6 +27,9 @@ public:
   // the ball's motion vector defining velocity
   Velocity velocity;
 
+  // the time at which this ball started moving
+  int moveStartTime;
+
   Ball();
 
   Ball(int x, int y, Color color);
