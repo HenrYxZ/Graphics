@@ -33,10 +33,7 @@ bool Ball::move() {
 bool Ball::collide(Ball other) {
   bool hasCollided = false;
 
-  // debug spew to ensure correct functionality
-  cout << "Ball at (" << x << ", " << y << ") has collided with " <<
-    "Ball at (" << other.x << ", " << other.y << ")\n"; 
-
+ 
   // first, we need to check for a collision.
   if (distance(x, y, other.x, other.y) <= (BALL_RADIUS * 2)) {
     hasCollided = true;
@@ -45,6 +42,13 @@ bool Ball::collide(Ball other) {
   if (hasCollided) {
     // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
+    // debug spew to ensure correct functionality
+    cout << "Ball at (" << x << ", " << y << ") has collided with " <<
+    "Ball at (" << other.x << ", " << other.y << ")\n"; 
+    /*The equation is x_1²+x_2² = x_0²
+    and x_1+x_2 = x_0 for speed
+    */
+
   }
 
   return hasCollided;
