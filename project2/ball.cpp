@@ -64,7 +64,10 @@ bool Ball::collideWithWall() {
   if (hasCollided) {
     // TODO: handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
+    if (x <= LEFT_WALL) {
+      // TODO: reflect across normal vector
+    }
   }
 
-  return hasCollided;
+   return hasCollided;
 }
