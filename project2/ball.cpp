@@ -19,11 +19,13 @@ Ball::Ball(int x, int y, Color color) {
   this->velocity = Velocity();
 }
 
-bool Ball::move() {
+bool Ball::move(int t) {
   // TODO: implement
-  if(velocity.getMagnitude() <= 0) {
+  if(!velocity.moving()) {
     return false;
   }
+  elapsedTime = t - moveStartTime;
+  
   // debug spew to ensure correct functionality
   cout << "Ball at (" << x << ", " << y << ") moved.\n";
 

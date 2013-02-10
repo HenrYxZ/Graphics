@@ -30,6 +30,14 @@ public:
   // the time at which this ball started moving
   int moveStartTime;
 
+  // the time elapsed since last move
+  int elapsedTime;
+
+  // allows the start time to be set from main
+  // pretty much exclusively for setting the cueball's first
+  // time after using the mouse
+  void setStartTime(int t) { moveStartTime = t; }
+
   Ball();
 
   Ball(int x, int y, Color color);
@@ -39,7 +47,7 @@ public:
   // also slows it down based on the friction coefficient
   // as defined above and
   // returns true if it moved, false if not
-  bool move();
+  bool move(int t);
 
   // checks for collision with the other ball, then updates
   // the velocity vector accordingly if a collision has occured
