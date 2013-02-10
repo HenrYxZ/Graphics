@@ -34,6 +34,7 @@ class Velocity {
   bool moving() { return (magnitude > 0); }
   void setXY(int x, int y);
   void slow(int t);
+  void reverse();
  private:
   int x;
   int y;
