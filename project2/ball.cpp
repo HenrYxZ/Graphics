@@ -19,11 +19,13 @@ Ball::Ball(int x, int y, Color color) {
   this->velocity = Velocity();
 }
 
-bool Ball::move() {
+bool Ball::move(int t) {
   // TODO: implement
-  if(velocity.getMagnitude() <= 0) {
+  if(!velocity.moving()) {
     return false;
   }
+  elapsedTime = t - moveStartTime;
+  
   // debug spew to ensure correct functionality
   cout << "Ball at (" << x << ", " << y << ") moved.\n";
 
@@ -67,8 +69,9 @@ bool Ball::collideWithWall() {
     // debug spew to ensure correct functinality
     cout << "Ball at (" << x << ", " << y << ") has collided with a wall\n";
     
-    // TODO: handle collision with a wall by reflecting the current velocity vector
+    // handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
+    // this ends up being trivial since we're reflecting across the axis' 
     if (x <= LEFT_WALL || x >= RIGHT_WALL) {
       // reflect across X axis
       velocity.setXY(velocity.getX(), velocity.getY() * -1);

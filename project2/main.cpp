@@ -9,6 +9,8 @@ using namespace std;
 
 vector<Ball> balls;
 
+int currentTime;
+
 struct mouse {
   int x;
   int y;
@@ -72,7 +74,10 @@ void Mouse(int button, int state, int x, int y) {
         // we are finished with a drag, we now have the cue hit
         mouse.dragging = false;
 
+        // modifies the velocity of the cueball
         balls[0].velocity.setXY((mouse.x - x), (mouse.y - y));
+        // sets the time that the cueball was hit
+        balls[0].setStartTime(glutGet(GLUT_ELAPSED_TIME));
         cout << "Cueball hit with " << balls[0].velocity.getX() <<
           " X and " << balls[0].velocity.getY() << " Y\n";
       }
@@ -87,11 +92,14 @@ void Mouse(int button, int state, int x, int y) {
 void Idle() {
   bool redisplayNeeded = false;
 
+  // get the time in milliseconds
+  currentTime = glutGet(GLUT_ELAPSED_TIME);
+
   // first, we're going to move all of the balls if they need to be moved
   for (int i = 0; i < balls.size(); ++i) {
     bool ballMoved;
 
-    ballMoved = balls[i].move();
+    ballMoved = balls[i].move(currentTime);
 
     if (ballMoved) {
       redisplayNeeded = true;

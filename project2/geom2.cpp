@@ -39,6 +39,8 @@ void Velocity::setXY(int x, int y) {
   Velocity::setMagnitude();
 }
 
+// reduce the magnitude of a velocity proportional to time for
+// calculating collisions
 void Velocity::slow(int t) {
   magnitude += ACCELERATION * t;
   updateXY();
