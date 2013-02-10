@@ -57,11 +57,7 @@ void Velocity::setDirectionRad() {
 }
 
 void Velocity::reverse() {
-  x *= -1;
-  y *= -1;
-  
-  // update the degrees
-  setDirectionRad();
+  setXY(x * -1, y * -1);
 }
 
 // After slowing/reducing the magnitude, updates x and y
