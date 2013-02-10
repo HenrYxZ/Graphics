@@ -35,6 +35,7 @@ class Velocity {
   void setXY(int x, int y);
   void slow(int t);
   void reverse();
+  void scalarSelfProduct(int scalar);
  private:
   int x;
   int y;
@@ -51,6 +52,9 @@ int DotProduct(Velocity vA, Velocity vB);
 // Uses the dot product between two velocity vectors to compute
 // the angle between them. Returns an angle in radians.
 float AngleBetween(Velocity vA, Velocity vB);
+
+Velocity sumOfVelocities( Velocity vA, Velocity vB);
+Velocity scalarProduct( int scalar, Velocity v);
 
 
 #endif

@@ -68,10 +68,28 @@ void Velocity::updateXY() {
   y = sin(directionRad) * magnitude;
 }
 
+void Velocity::scalarSelfProduct(int scalar) {
+  x = scalar * x;
+  y = scalar * y;
+}
+
 int DotProduct(Velocity vA, Velocity vB) {
-  return vA.getX() + vA.getY() + vB.getX() + vB.getY(); 
+  return vA.getX() * vB.getX() + vA.getY() * vB.getY(); 
 }
 
 float AngleBetween(Velocity vA, Velocity vB) {
   return acos(DotProduct(vA, vB) / (vA.getMagnitude() * vB.getMagnitude()));
+}
+
+Velocity sumOfVelocities(Velocity vA, Velocity vB) {
+
+  Velocity answer = Velocity( (vA.getX() + vB.getX() ), (vA.getY() + vB.getY() ));
+  return answer;
+  
+}
+
+Velocity scalarProduct( int scalar, Velocity v){
+
+  Velocity answer = Velocity( (v.getX() * scalar ), (v.getY() * scalar ));
+  return answer;
 }

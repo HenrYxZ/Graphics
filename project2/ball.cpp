@@ -51,6 +51,42 @@ bool Ball::collide(Ball other) {
     and x_1+x_2 = x_0 for speed
     */
 
+    /* This are not real velocities, are vectors but I will use it 
+     to use the velocity functions in geom2 */
+
+    Velocity r1 = Velocity(this->x,this->y);
+    Velocity r2 = Velocity(other.velocity.getX(), other.velocity.getY());
+    double absoluteV = sqrt( DotProduct(r1,r2) );
+
+
+    //Normal plane
+
+    int nx = ( r1.getX() - r2.getX() ) / absoluteV;
+    int ny = ( r1.getY() - r2.getY() ) / absoluteV;
+    Velocity n = Velocity(nx,ny);
+    Velocity negativen = Velocity(-nx,-ny);
+
+    //Normal Velocities
+
+    
+    Velocity vn1 = scalarProduct( DotProduct( this->velocity, negativen ), negativen );
+    Velocity vn2 = scalarProduct( DotProduct( other.velocity, n) , n);;
+
+    //tangent velocities
+
+    Velocity vt1 = sumOfVelocities( vn1, (scalarProduct(-1, this->velocity ) ) );
+    Velocity vt2 = sumOfVelocities( vn2, (scalarProduct(-1, other.velocity ) ) );
+
+    //final velocities
+    Velocity vf1 = sumOfVelocities( vt1 , vn2);
+    Velocity vf2 = sumOfVelocities( vt2, vn1);
+
+    this->velocity = vf1;
+    other.velocity = vf2;
+
+
+
+
   }
 
   return hasCollided;
