@@ -135,9 +135,11 @@ bool Ball::collide(Ball other) {
 bool Ball::collideWithWall() {
   bool hasCollided = false;
 
-  if ((x <= LEFT_WALL + BALL_RADIUS) || (x >= RIGHT_WALL - BALL_RADIUS) ||
-    (y <= BOTTOM_WALL + BALL_RADIUS) || (y >= TOP_WALL - BALL_RADIUS)) {
+  if ((x < LEFT_WALL + BALL_RADIUS) || (x > RIGHT_WALL - BALL_RADIUS) ||
+    (y < BOTTOM_WALL + BALL_RADIUS) || (y > TOP_WALL - BALL_RADIUS)) {
     hasCollided = true;
+
+    cout << x << " : " << y << " collide1\n";
   }
 
   if (hasCollided) {
@@ -147,35 +149,46 @@ bool Ball::collideWithWall() {
 
     // change the ball's velocity vector to match what it would be at
     // time of collision
-    moveStartTime += elapsedTime * 1000;
-    x_0 = x;
-    y_0 = y;
-    velocity.slow(elapsedTime);
+ 
     
 
     // handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
     // this ends up being trivial since we're reflecting across the axis' 
-    if (x <= LEFT_WALL + BALL_RADIUS) {
-      if (velocity.getX() < 0) {
+    if (x < LEFT_WALL + BALL_RADIUS) {
         // reflect across y axis
         velocity.setXY(velocity.getX() * -1, velocity.getY());
-      }
-    } else if (x >= RIGHT_WALL - BALL_RADIUS) {
-      if (velocity.getX() > 0) {
+
+        // then ensure the ball is no longer colliding
+        x = LEFT_WALL + BALL_RADIUS;
+    } else if (x > RIGHT_WALL - BALL_RADIUS) {
+        // reflect across y axis
         velocity.setXY(velocity.getX() * -1, velocity.getY());
-      }
-    } else if (y <= BOTTOM_WALL + BALL_RADIUS) {
-      if (velocity.getY() > 0) {
+
+        // then ensure the ball is no longer colliding
+        x = RIGHT_WALL - BALL_RADIUS;
+    } else if (y < BOTTOM_WALL + BALL_RADIUS) {
         // reflect across x axis
         velocity.setXY(velocity.getX(), velocity.getY() * -1);
-      }
+
+        // then ensure the ball is no longer colliding
+        y = BOTTOM_WALL + BALL_RADIUS;
     } else {
-      if (velocity.getY() < 0) {
         // then it must be a collision with the top wall
         velocity.setXY(velocity.getX(), velocity.getY() * -1);
-      }
+
+        // and lastly ensure that the ball is no longer colliding
+        y = TOP_WALL - BALL_RADIUS;
     }
+
+    // change the ball's velocity vector to match what it would be at
+    // time of collision
+    moveStartTime += elapsedTime * 1000;
+    x_0 = x;
+    y_0 = y;
+    //velocity.slow(elapsedTime);
+
+    cout << x << " : " << y << " collide2\n";
   }
 
    return hasCollided;
