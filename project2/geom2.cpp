@@ -26,8 +26,8 @@ Velocity::Velocity() {
 Velocity::Velocity(int x, int y) {
   this->x = x;
   this->y = y;
-  Velocity::setDirectionRad();
-  Velocity::setMagnitude();
+  setDirectionRad();
+  setMagnitude();
 }
 
 bool Velocity::moving(double t) {
@@ -39,26 +39,59 @@ bool Velocity::moving(double t) {
 void Velocity::setXY(int x, int y) {
   this->x = x;
   this->y = y;
-  Velocity::setDirectionRad();
-  Velocity::setMagnitude();
+  setDirectionRad();
+  setMagnitude();
 }
 
 // reduce the magnitude of a velocity proportional to time for
 // calculating collisions
 void Velocity::slow(double t) {
-  magnitude += ACCELERATION * t;
-  updateXY();
+  // check for rollovers and set to 0 if one happens
+  cout << t << "\n";
+
+  if (x > 0) {
+    x += ACCELERATION * t;
+
+    if (x < 0) {
+      x = 0;
+    }
+  } else {
+    x -= ACCELERATION * t;
+
+    if (x > 0) {
+      x = 0;
+    }
+  }
+
+  // do the same for y
+  if (y > 0) {
+    y += ACCELERATION * t;
+
+    if (y < 0) {
+      y = 0;
+    }
+  } else {
+    y -= ACCELERATION * t;
+
+    if (y > 0) {
+      y = 0;
+    }
+  }
+
+  // update our member variables
+  setMagnitude();
+  setDirectionRad();
 }
 
 void Velocity::setDirectionRad() {
-  if(x == 0) {
-    if(y >= 0) {
+  if(this->x == 0) {
+    if(this->y >= 0) {
       directionRad = 3.14159 / 2;
     } else {
       directionRad = -3.14159 / 2;
     }
   } else {
-    directionRad = atan(y/x);
+    directionRad = atan((double)y/x);
   }
 }
 
@@ -66,15 +99,14 @@ void Velocity::reverse() {
   setXY(x * -1, y * -1);
 }
 
-// After slowing/reducing the magnitude, updates x and y
-void Velocity::updateXY() {
-  x = cos(directionRad) * magnitude;
-  y = sin(directionRad) * magnitude;
-}
-
 void Velocity::scalarSelfProduct(int scalar) {
   setXY(scalar * x, scalar * y);
-} 
+}
+
+void Velocity::print() {
+  cout << "[" << x << ", " << y << "] with magnitude of " << 
+    magnitude << " and degree of " << directionRad << "\n"; 
+}
 
 int DotProduct(Velocity vA, Velocity vB) {
   return vA.getX() * vB.getX() + vA.getY() * vB.getY(); 

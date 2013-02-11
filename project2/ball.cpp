@@ -37,7 +37,7 @@ bool Ball::move(int t) {
         + (velocity.getX() * elapsedTime) + x_0;
   y = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
         * (velocity.getY() / velocity.getMagnitude())
-        + (-1 * velocity.getY() * elapsedTime) + y_0;
+        + (velocity.getY() * elapsedTime) + y_0;
 
   if(!velocity.moving(elapsedTime)) {
     velocity.slow(elapsedTime);
@@ -140,6 +140,8 @@ bool Ball::collideWithWall() {
     hasCollided = true;
 
     cout << x << " : " << y << " collide1\n";
+
+    velocity.print();
   }
 
   if (hasCollided) {
@@ -186,7 +188,9 @@ bool Ball::collideWithWall() {
     moveStartTime += elapsedTime * 1000;
     x_0 = x;
     y_0 = y;
-    //velocity.slow(elapsedTime);
+    velocity.print();
+    velocity.slow(elapsedTime);
+    velocity.print();
 
     cout << x << " : " << y << " collide2\n";
   }

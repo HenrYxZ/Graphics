@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 
 #ifndef __GEOM2_H__
 #define __GEOM2_H__
@@ -8,6 +9,8 @@
 
 // Arbitrary value for acceleration of balls in motion
 #define ACCELERATION -400
+
+using namespace std;
 
 // Handy geometry classes and functions
 
@@ -36,7 +39,7 @@ class Velocity {
   void slow(double t);
   void reverse();
   void scalarSelfProduct(int scalar);
-  string toString();
+  void print();
 
   // operators
   Velocity operator-(Velocity &other);
