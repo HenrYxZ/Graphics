@@ -33,6 +33,8 @@ public:
   // the time elapsed since last move
   double elapsedTime;
 
+  //bool velocityChanged;
+
   // allows the start time to be set from main
   // pretty much exclusively for setting the cueball's first
   // time after using the mouse
@@ -61,6 +63,8 @@ public:
 
   // initial x and y values when a ball is set in motion
   int x_0, y_0;
+
+  bool velocityChanged;
 };
 
 #endif

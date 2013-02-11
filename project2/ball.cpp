@@ -10,6 +10,7 @@ Ball::Ball() {
   this->y = 0;
   x_0 = 0;
   y_0 = 0;
+  velocityChanged = false;
   this->color = WHITE;
   this->velocity = Velocity();
 }
@@ -19,6 +20,7 @@ Ball::Ball(int x, int y, Color color) {
   this->y = y;
   x_0 = x;
   y_0 = y;
+  velocityChanged = false;
   this->color = color;
   this->velocity = Velocity();
 }
@@ -58,15 +60,17 @@ bool Ball::move(int t) {
 
 bool Ball::collide(Ball* other) {
   bool hasCollided = false;
-
- 
+  
   // first, we need to check for a collision.
   if (distance(x, y, other->x, other->y) <= (BALL_RADIUS * 2)) {
     hasCollided = true;
+  } else {
+    velocityChanged = false;
   }
 
   // Lots of commented tests
-  if (hasCollided) {
+  if (hasCollided && !velocityChanged) {
+
     // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
     // debug spew to ensure correct functionality
@@ -77,6 +81,7 @@ bool Ball::collide(Ball* other) {
     cout << "Ball at (" << x << ", " << y << ") has collided with " <<
    "Ball at (" << other->x << ", " << other->y << ")\n"; 
 
+    velocityChanged = true;
 /*
     // change the ball's velocity vector to match what it would be at
     // time of collision
@@ -98,7 +103,7 @@ bool Ball::collide(Ball* other) {
 
     /* This are not real velocities, are vectors but I will use it 
      to use the velocity functions in geom2 */
-/*
+
     Velocity r1 = Velocity(velocity.getX(), velocity.getY());
     Velocity r2 = Velocity(other->velocity.getX(), other->velocity.getY());
     double absoluteV = sqrt(DotProduct(r1 - r2, r1 - r2));
@@ -126,27 +131,27 @@ bool Ball::collide(Ball* other) {
 
     this->velocity = vf1;
     other->velocity = vf2;
-*/
 
-/*    int t = (elapsedTime * 1000) + moveStartTime;
+/*
+    int t = (elapsedTime * 1000) + moveStartTime;
 
-      other->x = 0;
-      other->y = 0;
-
+    //other->x = 0;
+    //other->y = 0;
+    other->x_0 = other->x;
+    other->y_0 = other->y;
     other->velocity.setXY(velocity.getX(), velocity.getY());
     other->setStartTime(t);
+
+    velocity.setXY(0, 0);
+    setStartTime(t);
+
 */
 
-//    velocity.setXY(0, 0);
-//    setStartTime(t);
+    //other->move(t);
+    //move(t);
 
 //    cout << "Other magnitude: " << other.velocity.getMagnitude() << "\n";
-
-//    other.move(x + 1000);
-//    move(x + 1000);
-
-//    cout << "Other magnitude: " << other.velocity.getMagnitude() << "\n";
-
+   
 /*
     // change the ball's velocity vector to match what it would be at
     // time of collision
