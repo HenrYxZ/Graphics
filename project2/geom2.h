@@ -36,6 +36,7 @@ class Velocity {
   void slow(double t);
   void reverse();
   void scalarSelfProduct(int scalar);
+  string toString();
 
   // operators
   Velocity operator-(Velocity &other);
