@@ -36,6 +36,9 @@ class Velocity {
   void slow(double t);
   void reverse();
   void scalarSelfProduct(int scalar);
+
+  // operators
+  Velocity operator-(Velocity &other);
  private:
   int x;
   int y;

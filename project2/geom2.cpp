@@ -73,9 +73,8 @@ void Velocity::updateXY() {
 }
 
 void Velocity::scalarSelfProduct(int scalar) {
-  x = scalar * x;
-  y = scalar * y;
-}
+  setXY(scalar * x, scalar * y);
+} 
 
 int DotProduct(Velocity vA, Velocity vB) {
   return vA.getX() * vB.getX() + vA.getY() * vB.getY(); 
@@ -96,4 +95,11 @@ Velocity scalarProduct( int scalar, Velocity v){
 
   Velocity answer = Velocity( (v.getX() * scalar ), (v.getY() * scalar ));
   return answer;
+}
+
+// Operator override
+// Add this instance's value to other, and return a new instance
+  // with the result.
+Velocity Velocity::operator-(Velocity &other) {
+    return Velocity(x - other.getX(), y - other.getY());
 }
