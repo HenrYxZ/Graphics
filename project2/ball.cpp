@@ -71,13 +71,14 @@ bool Ball::collide(Ball other) {
     // debug spew to ensure correct functionality
     cout << "Ball at (" << x << ", " << y << ") has collided with " <<
     "Ball at (" << other.x << ", " << other.y << ")\n"; 
-/*
+
     // change the ball's velocity vector to match what it would be at
     // time of collision
     moveStartTime += elapsedTime * 1000;
     x_0 = x;
     y_0 = y;
     velocity.slow(elapsedTime);
+/*
     // alter the other ball's velocity vector
     other.setStartTime();
     other.setX_0(other.x);
