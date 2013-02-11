@@ -7,10 +7,10 @@
 #define FRICTION 0.5
 
 // the following four definitions specify the boundary of the four walls
-#define TOP_WALL 200
-#define BOTTOM_WALL -200
-#define RIGHT_WALL 150
-#define LEFT_WALL -150
+#define TOP_WALL 150
+#define BOTTOM_WALL -150
+#define RIGHT_WALL 200
+#define LEFT_WALL -200
 
 enum Color { WHITE, BLACK, RED, GREEN, BLUE }; 
 

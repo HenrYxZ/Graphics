@@ -33,20 +33,23 @@ bool Ball::move(int t) {
 
   // Update position according to elapsed time
   x = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
-        + (velocity.getMagnitude() * elapsedTime) + x_0;
-  y = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
-        + (velocity.getMagnitude() * elapsedTime) + y_0;
+        + (velocity.getX() * elapsedTime) + x_0;
+  y = 0;//(0.5 * ACCELERATION * elapsedTime * elapsedTime)
+        //+ (-1 * velocity.getMagnitude() * elapsedTime) + y_0;
 
   if(!velocity.moving(elapsedTime)) {
     velocity.slow(elapsedTime);
+    x_0 = x;
+    y_0 = y;
   }
 
   // debug spew to ensure correct functionality
   cout << "Ball at (" << x << ", " << y << ") moved.\n";
-  cout << "Magnitude: " << velocity.getMagnitude() << "\n";
-  cout << "Elapsed Time: " << elapsedTime << "\n";
-  cout << "Moving(): " << velocity.moving(elapsedTime) << "\n";
-  cout << "A * t = " << (ACCELERATION * elapsedTime) << "\n";
+  //cout << "Magnitude: " << velocity.getMagnitude() << "\n";
+  //cout << "Elapsed Time: " << elapsedTime << "\n";
+  //cout << "Vx = " << velocity.getX() << ", Vy = " << velocity.getY() << "\n";
+  //cout << "Moving(): " << velocity.moving(elapsedTime) << "\n";
+  //cout << "A * t = " << (ACCELERATION * elapsedTime) << "\n";
 
   return true;
 }
@@ -114,8 +117,8 @@ bool Ball::collide(Ball other) {
 bool Ball::collideWithWall() {
   bool hasCollided = false;
 
-  if ((x <= LEFT_WALL) || (x >= RIGHT_WALL) ||
-    (y <= BOTTOM_WALL) || (y >= TOP_WALL)) {
+  if ((x <= LEFT_WALL + BALL_RADIUS) || (x >= RIGHT_WALL - BALL_RADIUS) ||
+    (y <= BOTTOM_WALL + BALL_RADIUS) || (y >= TOP_WALL - BALL_RADIUS)) {
     hasCollided = true;
   }
 
@@ -127,7 +130,7 @@ bool Ball::collideWithWall() {
     // handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
     // this ends up being trivial since we're reflecting across the axis' 
-    if (x <= LEFT_WALL || x >= RIGHT_WALL) {
+    if (x <= LEFT_WALL + BALL_RADIUS || x >= RIGHT_WALL - BALL_RADIUS) {
       // reflect across X axis
       velocity.setXY(velocity.getX(), velocity.getY() * -1);
 
