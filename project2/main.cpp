@@ -41,7 +41,7 @@ void DisplayBall(Ball toDisplay) {
   }
 
   glBegin(GL_POLYGON);
-  for(double i = 0; i < 2 * PI; i += PI / 6) {
+  for(double i = 0; i < 2 * PI; i += PI / 180) {
     glVertex2f(toDisplay.x + cos(i) * BALL_RADIUS,
       toDisplay.y + sin(i) * BALL_RADIUS);
   }
