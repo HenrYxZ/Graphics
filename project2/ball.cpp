@@ -73,11 +73,12 @@ bool Ball::collide(Ball other) {
     // "Ball at (" << other.x << ", " << other.y << ")\n"; 
 
     /*
-=======
-    cout << "Ball at (" << x << ", " << y << ") has collided with " <<
-    "Ball at (" << other.x << ", " << other.y << ")\n"; 
 
->>>>>>> c011f81cca0b6d8c97780a3d6a77bbc278450cb9
+    cout << "Ball at (" << x << ", " << y << ") has collided with " <<
+   "Ball at (" << other.x << ", " << other.y << ")\n"; 
+
+    */
+
     // change the ball's velocity vector to match what it would be at
     // time of collision
     moveStartTime += elapsedTime * 1000;
@@ -85,12 +86,16 @@ bool Ball::collide(Ball other) {
     y_0 = y;
     velocity.slow(elapsedTime);
 
+    /*
+
     // alter the other ball's velocity vector
     other.setStartTime();
     other.setX_0(other.x);
     other.setY_0(other.y);
     other.velocity.slow();
+
     */
+
 
     /*The equation is x_1²+x_2² = x_0²
     and x_1+x_2 = x_0 for speed
@@ -101,15 +106,13 @@ bool Ball::collide(Ball other) {
 
     Velocity r1 = Velocity(velocity.getX(), velocity.getY());
     Velocity r2 = Velocity(other.velocity.getX(), other.velocity.getY());
-    double absoluteV = sqrt( DotProduct(r1,r2) );
+    double absoluteV = sqrt(DotProduct(r1 - r2, r1 - r2));
 
 
     //Normal plane
 
-    int nx = ( r1.getX() - r2.getX() ) / absoluteV;
-    int ny = ( r1.getY() - r2.getY() ) / absoluteV;
-    Velocity n = Velocity(nx,ny);
-    Velocity negativen = Velocity(-nx,-ny);
+    Velocity n = scalarProduct(pow(absoluteV, -1), r1 - r2);
+    Velocity negativen = scalarProduct(-1, n);
 
     //Normal Velocities
 
