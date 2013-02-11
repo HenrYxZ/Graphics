@@ -33,9 +33,11 @@ bool Ball::move(int t) {
 
   // Update position according to elapsed time
   x = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
+        * (velocity.getX() / velocity.getMagnitude())
         + (velocity.getX() * elapsedTime) + x_0;
-  y = 0;//(0.5 * ACCELERATION * elapsedTime * elapsedTime)
-        //+ (-1 * velocity.getY() * elapsedTime) + y_0;
+  y = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
+        * (velocity.getY() / velocity.getMagnitude())
+        + (-1 * velocity.getY() * elapsedTime) + y_0;
 
   if(!velocity.moving(elapsedTime)) {
     velocity.slow(elapsedTime);
@@ -156,12 +158,12 @@ bool Ball::collideWithWall() {
       velocity.setXY(velocity.getX(), velocity.getY() * -1);
 
       // then reverse the direction
-      //velocity.reverse();
+      velocity.reverse();
     } else {
       // then it must be a collision with the top or bottom walls
       velocity.setXY(velocity.getX() * -1, velocity.getY());
 
-      //velocity.reverse();
+      velocity.reverse();
     }
   }
 
