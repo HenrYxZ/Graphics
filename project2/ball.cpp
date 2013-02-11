@@ -86,15 +86,15 @@ bool Ball::collide(Ball other) {
     y_0 = y;
     velocity.slow(elapsedTime);
 
-    /*
+    
 
     // alter the other ball's velocity vector
-    other.setStartTime();
-    other.setX_0(other.x);
-    other.setY_0(other.y);
-    other.velocity.slow();
+    other.moveStartTime += elapsedTime * 1000;
+    other.x_0 = other.x;
+    other.y_0 = other.y;
+    other.velocity.slow(other.elapsedTime);
 
-    */
+    
 
 
     /*The equation is x_1²+x_2² = x_0²
@@ -131,10 +131,6 @@ bool Ball::collide(Ball other) {
 
     this->velocity = vf1;
     other.velocity = vf2;
-
-
-
-
   }
 
   return hasCollided;
