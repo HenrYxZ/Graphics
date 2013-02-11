@@ -56,15 +56,16 @@ bool Ball::move(int t) {
   return true;
 }
 
-bool Ball::collide(Ball other) {
+bool Ball::collide(Ball* other) {
   bool hasCollided = false;
 
  
   // first, we need to check for a collision.
-  if (distance(x, y, other.x, other.y) <= (BALL_RADIUS * 2)) {
+  if (distance(x, y, other->x, other->y) <= (BALL_RADIUS * 2)) {
     hasCollided = true;
   }
 
+  // Lots of commented tests
   if (hasCollided) {
     // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
@@ -72,13 +73,11 @@ bool Ball::collide(Ball other) {
     // cout << "Ball at (" << x << ", " << y << ") has collided with " <<
     // "Ball at (" << other.x << ", " << other.y << ")\n"; 
 
-    /*
 
     cout << "Ball at (" << x << ", " << y << ") has collided with " <<
-   "Ball at (" << other.x << ", " << other.y << ")\n"; 
+   "Ball at (" << other->x << ", " << other->y << ")\n"; 
 
-    */
-
+/*
     // change the ball's velocity vector to match what it would be at
     // time of collision
     moveStartTime += elapsedTime * 1000;
@@ -88,20 +87,20 @@ bool Ball::collide(Ball other) {
     
 
     // alter the other ball's velocity vector
-    other.moveStartTime += other.elapsedTime * 1000;
+    other.moveStartTime = moveStartTime;
     other.x_0 = other.x;
     other.y_0 = other.y;
     other.velocity.slow(other.elapsedTime);
-
+*/
     /*The equation is x_1²+x_2² = x_0²
     and x_1+x_2 = x_0 for speed
     */
 
     /* This are not real velocities, are vectors but I will use it 
      to use the velocity functions in geom2 */
-
+/*
     Velocity r1 = Velocity(velocity.getX(), velocity.getY());
-    Velocity r2 = Velocity(other.velocity.getX(), other.velocity.getY());
+    Velocity r2 = Velocity(other->velocity.getX(), other->velocity.getY());
     double absoluteV = sqrt(DotProduct(r1 - r2, r1 - r2));
 
 
@@ -114,19 +113,56 @@ bool Ball::collide(Ball other) {
 
     
     Velocity vn1 = scalarProduct( DotProduct( this->velocity, negativen ), negativen );
-    Velocity vn2 = scalarProduct( DotProduct( other.velocity, n) , n);
+    Velocity vn2 = scalarProduct( DotProduct( other->velocity, n) , n);
 
     //tangent velocities
 
     Velocity vt1 = sumOfVelocities( vn1, (scalarProduct(-1, this->velocity ) ) );
-    Velocity vt2 = sumOfVelocities( vn2, (scalarProduct(-1, other.velocity ) ) );
+    Velocity vt2 = sumOfVelocities( vn2, (scalarProduct(-1, other->velocity ) ) );
 
     //final velocities
     Velocity vf1 = sumOfVelocities( vt1 , vn2);
     Velocity vf2 = sumOfVelocities( vt2, vn1);
 
     this->velocity = vf1;
-    other.velocity = vf2;
+    other->velocity = vf2;
+*/
+
+/*    int t = (elapsedTime * 1000) + moveStartTime;
+
+      other->x = 0;
+      other->y = 0;
+
+    other->velocity.setXY(velocity.getX(), velocity.getY());
+    other->setStartTime(t);
+*/
+
+//    velocity.setXY(0, 0);
+//    setStartTime(t);
+
+//    cout << "Other magnitude: " << other.velocity.getMagnitude() << "\n";
+
+//    other.move(x + 1000);
+//    move(x + 1000);
+
+//    cout << "Other magnitude: " << other.velocity.getMagnitude() << "\n";
+
+/*
+    // change the ball's velocity vector to match what it would be at
+    // time of collision
+    moveStartTime += elapsedTime * 1000;
+    x_0 = x;
+    y_0 = y;
+    //velocity.slow(elapsedTime);
+
+
+    // alter the other ball's velocity vector
+    other->moveStartTime = moveStartTime;
+    other->x_0 = other->x;
+    other->y_0 = other->y;
+    //other.velocity.slow(other.elapsedTime);
+*/
+
   }
 
   return hasCollided;

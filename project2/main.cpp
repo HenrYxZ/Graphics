@@ -115,7 +115,7 @@ void Idle() {
     for (int j = i + 1; j < balls.size(); ++j) {
       bool ballCollided;
 
-      ballCollided = balls[i].collide(balls[j]);
+      ballCollided = balls[i].collide(&balls[j]);
 
       // I am still unsure if we need to redisplay after both
       // a collision and a move, it may be redundant
