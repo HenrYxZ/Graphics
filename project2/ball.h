@@ -31,7 +31,7 @@ public:
   int moveStartTime;
 
   // the time elapsed since last move
-  int elapsedTime;
+  double elapsedTime;
 
   // allows the start time to be set from main
   // pretty much exclusively for setting the cueball's first
@@ -58,6 +58,10 @@ public:
   // then updates the velocity vector accordingly if a collision
   // has occured and returns true if an update happened and false if not
   bool collideWithWall();
+
+private:
+  // initial x and y values when a ball is set in motion
+  int x_0, y_0;
 };
 
 #endif

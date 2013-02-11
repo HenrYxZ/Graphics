@@ -8,6 +8,8 @@ using namespace std;
 Ball::Ball() {
   this->x = 0;
   this->y = 0;
+  x_0 = 0;
+  y_0 = 0;
   this->color = WHITE;
   this->velocity = Velocity();
 }
@@ -15,21 +17,38 @@ Ball::Ball() {
 Ball::Ball(int x, int y, Color color) {
   this->x = x;
   this->y = y;
+  x_0 = x;
+  y_0 = y;
   this->color = color;
   this->velocity = Velocity();
 }
 
 bool Ball::move(int t) {
   // TODO: implement
-  if(!velocity.moving()) {
+  if(velocity.getMagnitude() <= 0) {
     return false;
   }
-  elapsedTime = t - moveStartTime;
-  
+  // Elapsed time in seconds
+  elapsedTime = (double)(t - moveStartTime) / 1000;
+
+  // Update position according to elapsed time
+  x = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
+        + (velocity.getMagnitude() * elapsedTime) + x_0;
+  y = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
+        + (velocity.getMagnitude() * elapsedTime) + y_0;
+
+  if(!velocity.moving(elapsedTime)) {
+    velocity.slow(elapsedTime);
+  }
+
   // debug spew to ensure correct functionality
   cout << "Ball at (" << x << ", " << y << ") moved.\n";
+  cout << "Magnitude: " << velocity.getMagnitude() << "\n";
+  cout << "Elapsed Time: " << elapsedTime << "\n";
+  cout << "Moving(): " << velocity.moving(elapsedTime) << "\n";
+  cout << "A * t = " << (ACCELERATION * elapsedTime) << "\n";
 
-  return false;
+  return true;
 }
 
 bool Ball::collide(Ball other) {

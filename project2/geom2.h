@@ -7,7 +7,7 @@
 #define ALPHA 1
 
 // Arbitrary value for acceleration of balls in motion
-#define ACCELERATION -5
+#define ACCELERATION -12
 
 // Handy geometry classes and functions
 
@@ -31,9 +31,9 @@ class Velocity {
   int getY() { return y; }
   int getMagnitude() { return magnitude; }
   int getDirection() { return directionRad; }
-  bool moving() { return (magnitude > 0); }
+  bool moving(double t);
   void setXY(int x, int y);
-  void slow(int t);
+  void slow(double t);
   void reverse();
   void scalarSelfProduct(int scalar);
  private:

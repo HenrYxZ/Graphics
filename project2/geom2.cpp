@@ -30,6 +30,10 @@ Velocity::Velocity(int x, int y) {
   Velocity::setMagnitude();
 }
 
+bool Velocity::moving(double t) {
+  return (ACCELERATION * t) + magnitude >= 0;
+}
+
 // setting new x and y values will adjust the direction
 // and magnitude accordingly
 void Velocity::setXY(int x, int y) {
@@ -41,7 +45,7 @@ void Velocity::setXY(int x, int y) {
 
 // reduce the magnitude of a velocity proportional to time for
 // calculating collisions
-void Velocity::slow(int t) {
+void Velocity::slow(double t) {
   magnitude += ACCELERATION * t;
   updateXY();
 }
