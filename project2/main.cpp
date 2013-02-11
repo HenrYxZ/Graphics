@@ -75,8 +75,8 @@ void Mouse(int button, int state, int x, int y) {
         mouse.dragging = false;
 
         // modifies the velocity of the cueball
-        int vel_X = (mouse.x - x);
-        int vel_Y = (mouse.y - y);
+        int vel_X = ((mouse.x - x)) / 2;
+        int vel_Y = (-1 * (mouse.y - y)) / 2;
 
         if(vel_X < (-1 * MAX_SPEED) )
           vel_X = (-1 * MAX_SPEED);
