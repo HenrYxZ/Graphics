@@ -59,9 +59,11 @@ public:
   // has occured and returns true if an update happened and false if not
   bool collideWithWall();
 
-private:
   // initial x and y values when a ball is set in motion
   int x_0, y_0;
+
+  int getX_0() { return x_0; }
+  int getY_0() { return y_0; }
 };
 
 #endif

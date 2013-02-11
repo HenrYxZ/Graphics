@@ -35,7 +35,7 @@ bool Ball::move(int t) {
   x = (0.5 * ACCELERATION * elapsedTime * elapsedTime)
         + (velocity.getX() * elapsedTime) + x_0;
   y = 0;//(0.5 * ACCELERATION * elapsedTime * elapsedTime)
-        //+ (-1 * velocity.getMagnitude() * elapsedTime) + y_0;
+        //+ (-1 * velocity.getY() * elapsedTime) + y_0;
 
   if(!velocity.moving(elapsedTime)) {
     velocity.slow(elapsedTime);
@@ -69,6 +69,19 @@ bool Ball::collide(Ball other) {
     // debug spew to ensure correct functionality
     cout << "Ball at (" << x << ", " << y << ") has collided with " <<
     "Ball at (" << other.x << ", " << other.y << ")\n"; 
+/*
+    // change the ball's velocity vector to match what it would be at
+    // time of collision
+    moveStartTime += elapsedTime * 1000;
+    x_0 = x;
+    y_0 = y;
+    velocity.slow(elapsedTime);
+    // alter the other ball's velocity vector
+    other.setStartTime();
+    other.setX_0(other.x);
+    other.setY_0(other.y);
+    other.velocity.slow();
+*/
     /*The equation is x_1²+x_2² = x_0²
     and x_1+x_2 = x_0 for speed
     */
@@ -126,7 +139,15 @@ bool Ball::collideWithWall() {
 
     // debug spew to ensure correct functinality
     cout << "Ball at (" << x << ", " << y << ") has collided with a wall\n";
+
+    // change the ball's velocity vector to match what it would be at
+    // time of collision
+    moveStartTime += elapsedTime * 1000;
+    x_0 = x;
+    y_0 = y;
+    velocity.slow(elapsedTime);
     
+
     // handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
     // this ends up being trivial since we're reflecting across the axis' 
@@ -135,12 +156,12 @@ bool Ball::collideWithWall() {
       velocity.setXY(velocity.getX(), velocity.getY() * -1);
 
       // then reverse the direction
-      velocity.reverse();
+      //velocity.reverse();
     } else {
       // then it must be a collision with the top or bottom walls
       velocity.setXY(velocity.getX() * -1, velocity.getY());
 
-      velocity.reverse();
+      //velocity.reverse();
     }
   }
 
