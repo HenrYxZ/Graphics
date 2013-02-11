@@ -7,7 +7,7 @@
 #define ALPHA 1
 
 // Arbitrary value for acceleration of balls in motion
-#define ACCELERATION -12
+#define ACCELERATION -400
 
 // Handy geometry classes and functions
 
