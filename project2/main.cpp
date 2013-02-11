@@ -78,6 +78,8 @@ void Mouse(int button, int state, int x, int y) {
         balls[0].velocity.setXY((mouse.x - x), (mouse.y - y));
         // sets the time that the cueball was hit
         balls[0].setStartTime(glutGet(GLUT_ELAPSED_TIME));
+        balls[0].x_0 = balls[0].x;
+        balls[0].y_0 = balls[0].y;
         cout << "Cueball hit with " << balls[0].velocity.getX() <<
           " X and " << balls[0].velocity.getY() << " Y\n";
       }
