@@ -46,7 +46,7 @@ bool Ball::move(int t) {
   }
 
   // debug spew to ensure correct functionality
-  cout << "Ball at (" << x << ", " << y << ") moved.\n";
+  // cout << "Ball at (" << x << ", " << y << ") moved.\n";
   //cout << "Magnitude: " << velocity.getMagnitude() << "\n";
   //cout << "Elapsed Time: " << elapsedTime << "\n";
   //cout << "Vx = " << velocity.getX() << ", Vy = " << velocity.getY() << "\n";
@@ -69,9 +69,10 @@ bool Ball::collide(Ball other) {
     // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
     // debug spew to ensure correct functionality
-    cout << "Ball at (" << x << ", " << y << ") has collided with " <<
-    "Ball at (" << other.x << ", " << other.y << ")\n"; 
-/*
+    // cout << "Ball at (" << x << ", " << y << ") has collided with " <<
+    // "Ball at (" << other.x << ", " << other.y << ")\n"; 
+
+    /*
     // change the ball's velocity vector to match what it would be at
     // time of collision
     moveStartTime += elapsedTime * 1000;
@@ -83,7 +84,8 @@ bool Ball::collide(Ball other) {
     other.setX_0(other.x);
     other.setY_0(other.y);
     other.velocity.slow();
-*/
+    */
+
     /*The equation is x_1²+x_2² = x_0²
     and x_1+x_2 = x_0 for speed
     */
@@ -140,7 +142,7 @@ bool Ball::collideWithWall() {
   if (hasCollided) {
 
     // debug spew to ensure correct functinality
-    cout << "Ball at (" << x << ", " << y << ") has collided with a wall\n";
+    // cout << "Ball at (" << x << ", " << y << ") has collided with a wall\n";
 
     // change the ball's velocity vector to match what it would be at
     // time of collision
