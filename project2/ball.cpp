@@ -46,7 +46,7 @@ bool Ball::move(int t) {
   }
 
   // debug spew to ensure correct functionality
-  // cout << "Ball at (" << x << ", " << y << ") moved.\n";
+  // cout << "Ball at (" << x << ", " << y << ") moved
   //cout << "Magnitude: " << velocity.getMagnitude() << "\n";
   //cout << "Elapsed Time: " << elapsedTime << "\n";
   //cout << "Vx = " << velocity.getX() << ", Vy = " << velocity.getY() << "\n";
@@ -85,17 +85,13 @@ bool Ball::collide(Ball other) {
     x_0 = x;
     y_0 = y;
     velocity.slow(elapsedTime);
-
     
 
     // alter the other ball's velocity vector
-    other.moveStartTime += elapsedTime * 1000;
+    other.moveStartTime += other.elapsedTime * 1000;
     other.x_0 = other.x;
     other.y_0 = other.y;
     other.velocity.slow(other.elapsedTime);
-
-    
-
 
     /*The equation is x_1²+x_2² = x_0²
     and x_1+x_2 = x_0 for speed
@@ -118,7 +114,7 @@ bool Ball::collide(Ball other) {
 
     
     Velocity vn1 = scalarProduct( DotProduct( this->velocity, negativen ), negativen );
-    Velocity vn2 = scalarProduct( DotProduct( other.velocity, n) , n);;
+    Velocity vn2 = scalarProduct( DotProduct( other.velocity, n) , n);
 
     //tangent velocities
 
@@ -160,17 +156,25 @@ bool Ball::collideWithWall() {
     // handle collision with a wall by reflecting the current velocity vector
     // across the normal to the wall it collided with and reversing its direction
     // this ends up being trivial since we're reflecting across the axis' 
-    if (x <= LEFT_WALL + BALL_RADIUS || x >= RIGHT_WALL - BALL_RADIUS) {
-      // reflect across X axis
-      velocity.setXY(velocity.getX(), velocity.getY() * -1);
-
-      // then reverse the direction
-      velocity.reverse();
+    if (x <= LEFT_WALL + BALL_RADIUS) {
+      if (velocity.getX() < 0) {
+        // reflect across y axis
+        velocity.setXY(velocity.getX() * -1, velocity.getY());
+      }
+    } else if (x >= RIGHT_WALL - BALL_RADIUS) {
+      if (velocity.getX() > 0) {
+        velocity.setXY(velocity.getX() * -1, velocity.getY());
+      }
+    } else if (y <= BOTTOM_WALL + BALL_RADIUS) {
+      if (velocity.getY() > 0) {
+        // reflect across x axis
+        velocity.setXY(velocity.getX(), velocity.getY() * -1);
+      }
     } else {
-      // then it must be a collision with the top or bottom walls
-      velocity.setXY(velocity.getX() * -1, velocity.getY());
-
-      velocity.reverse();
+      if (velocity.getY() < 0) {
+        // then it must be a collision with the top wall
+        velocity.setXY(velocity.getX(), velocity.getY() * -1);
+      }
     }
   }
 
