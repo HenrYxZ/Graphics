@@ -75,7 +75,21 @@ void Mouse(int button, int state, int x, int y) {
         mouse.dragging = false;
 
         // modifies the velocity of the cueball
-        balls[0].velocity.setXY((mouse.x - x), (mouse.y - y));
+
+        int vel_X = (mouse.x - x);
+        int vel_Y = (mouse.y - y);
+
+        if(vel_X < (-1 * MAX_SPEED) )
+          vel_X = (-1 * MAX_SPEED);
+        if(vel_X >  MAX_SPEED)
+          vel_X = MAX_SPEED;
+
+        if(vel_Y < (-1 * MAX_SPEED))
+          vel_Y = (-1 * MAX_SPEED);
+        if(vel_Y >  MAX_SPEED)
+          vel_Y =  MAX_SPEED;
+
+        balls[0].velocity.setXY(vel_X, vel_Y);
         // sets the time that the cueball was hit
         balls[0].setStartTime(glutGet(GLUT_ELAPSED_TIME));
         balls[0].x_0 = balls[0].x;
