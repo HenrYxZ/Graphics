@@ -93,7 +93,7 @@ bool Ball::collide(Ball other) {
     /* This are not real velocities, are vectors but I will use it 
      to use the velocity functions in geom2 */
 
-    Velocity r1 = Velocity(this->x,this->y);
+    Velocity r1 = Velocity(velocity.getX(), velocity.getY());
     Velocity r2 = Velocity(other.velocity.getX(), other.velocity.getY());
     double absoluteV = sqrt( DotProduct(r1,r2) );
 
