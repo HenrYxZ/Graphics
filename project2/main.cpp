@@ -41,7 +41,7 @@ void DisplayBall(Ball toDisplay) {
   }
 
   glBegin(GL_POLYGON);
-  for(double i = 0; i < 2 * PI; i += PI / 6) {
+  for(double i = 0; i < 2 * PI; i += PI / 180) {
     glVertex2f(toDisplay.x + cos(i) * BALL_RADIUS,
       toDisplay.y + sin(i) * BALL_RADIUS);
   }
@@ -75,9 +75,8 @@ void Mouse(int button, int state, int x, int y) {
         mouse.dragging = false;
 
         // modifies the velocity of the cueball
-
-        int vel_X = (mouse.x - x);
-        int vel_Y = (mouse.y - y);
+        int vel_X = ((mouse.x - x)) / 2;
+        int vel_Y = (-1 * (mouse.y - y)) / 2;
 
         if(vel_X < (-1 * MAX_SPEED) )
           vel_X = (-1 * MAX_SPEED);
@@ -112,18 +111,19 @@ void Idle() {
   currentTime = glutGet(GLUT_ELAPSED_TIME);
 
   // first, we're going to move all of the balls if they need to be moved
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     bool ballMoved;
 
     ballMoved = balls[i].move(currentTime);
 
     if (ballMoved) {
       redisplayNeeded = true;
+      break;
     }
   }
 
   // next, we need to check for collisions among all pairs of balls
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     // the bounds of these two loops will properly check all pairs once
     // and does not check both (i, j) and (j, i).
     for (int j = i + 1; j < balls.size(); ++j) {
@@ -135,6 +135,7 @@ void Idle() {
       // a collision and a move, it may be redundant
       if (ballCollided) {
         redisplayNeeded = true;
+        break;
       }
     }
   }
@@ -142,7 +143,7 @@ void Idle() {
   // Lastly, we will want to check for collisions with a wall for each
   // ball we can technically do this in the first for loop of this function,
   // but I vote that we put it here for readability purposes.
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     bool ballCollided = false;
 
     ballCollided = balls[i].collideWithWall();
@@ -150,6 +151,7 @@ void Idle() {
     // I'm still unsure if we need to redisplay here
     if (ballCollided) {
       redisplayNeeded = true;
+      break;
     }
   }
 

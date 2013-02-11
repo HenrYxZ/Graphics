@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 
 #ifndef __GEOM2_H__
 #define __GEOM2_H__
@@ -11,6 +12,8 @@
 
 // Maximum speed per ball
 #define MAX_SPEED 200
+
+using namespace std;
 
 // Handy geometry classes and functions
 
@@ -39,6 +42,7 @@ class Velocity {
   void slow(double t);
   void reverse();
   void scalarSelfProduct(int scalar);
+  void print();
 
   // operators
   Velocity operator-(Velocity &other);
