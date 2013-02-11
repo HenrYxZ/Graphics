@@ -31,7 +31,7 @@ Velocity::Velocity(int x, int y) {
 }
 
 bool Velocity::moving(double t) {
-  return (ACCELERATION * t) + magnitude >= 0;
+  return ACCELERATION * t + magnitude >= 0;
 }
 
 // setting new x and y values will adjust the direction
@@ -46,9 +46,7 @@ void Velocity::setXY(int x, int y) {
 // reduce the magnitude of a velocity proportional to time for
 // calculating collisions
 void Velocity::slow(double t) {
-  // check for rollovers and set to 0 if one happens
-  cout << t << "\n";
-
+  // check for rollovers and set 0 if one occurs
   if (x > 0) {
     x += ACCELERATION * t;
 

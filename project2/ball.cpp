@@ -38,11 +38,12 @@ bool Ball::move(int t) {
         * (velocity.getY() / velocity.getMagnitude())
         + (velocity.getY() * elapsedTime) + y_0;
 
-  if(!velocity.moving(elapsedTime)) {
+  if (!velocity.moving(elapsedTime)) {
     velocity.slow(elapsedTime);
     x_0 = x;
     y_0 = y;
   }
+
 
   // debug spew to ensure correct functionality
   // cout << "Ball at (" << x << ", " << y << ") moved
