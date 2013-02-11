@@ -8,7 +8,10 @@
 #define ALPHA 1
 
 // Arbitrary value for acceleration of balls in motion
-#define ACCELERATION -400
+#define ACCELERATION -100
+
+// Maximum speed per ball
+#define MAX_SPEED 200
 
 using namespace std;
 

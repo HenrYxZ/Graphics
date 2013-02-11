@@ -75,11 +75,20 @@ void Mouse(int button, int state, int x, int y) {
         mouse.dragging = false;
 
         // modifies the velocity of the cueball
-        balls[0].velocity.setXY((mouse.x - x)/2, (mouse.y - y)/-2);
+        int vel_X = (mouse.x - x);
+        int vel_Y = (mouse.y - y);
 
-        //print for debugging purposes
-        balls[0].velocity.print();
+        if(vel_X < (-1 * MAX_SPEED) )
+          vel_X = (-1 * MAX_SPEED);
+        if(vel_X >  MAX_SPEED)
+          vel_X = MAX_SPEED;
 
+        if(vel_Y < (-1 * MAX_SPEED))
+          vel_Y = (-1 * MAX_SPEED);
+        if(vel_Y >  MAX_SPEED)
+          vel_Y =  MAX_SPEED;
+
+        balls[0].velocity.setXY(vel_X, vel_Y);
         // sets the time that the cueball was hit
         balls[0].setStartTime(glutGet(GLUT_ELAPSED_TIME));
         balls[0].x_0 = balls[0].x;
@@ -102,29 +111,31 @@ void Idle() {
   currentTime = glutGet(GLUT_ELAPSED_TIME);
 
   // first, we're going to move all of the balls if they need to be moved
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     bool ballMoved;
 
     ballMoved = balls[i].move(currentTime);
 
     if (ballMoved) {
       redisplayNeeded = true;
+      break;
     }
   }
 
   // next, we need to check for collisions among all pairs of balls
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     // the bounds of these two loops will properly check all pairs once
     // and does not check both (i, j) and (j, i).
     for (int j = i + 1; j < balls.size(); ++j) {
       bool ballCollided;
 
-      ballCollided = balls[i].collide(balls[j]);
+      ballCollided = balls[i].collide(&balls[j]);
 
       // I am still unsure if we need to redisplay after both
       // a collision and a move, it may be redundant
       if (ballCollided) {
         redisplayNeeded = true;
+        break;
       }
     }
   }
@@ -132,7 +143,7 @@ void Idle() {
   // Lastly, we will want to check for collisions with a wall for each
   // ball we can technically do this in the first for loop of this function,
   // but I vote that we put it here for readability purposes.
-  for (int i = 0; i < balls.size(); ++i) {
+  for (int i = 0; i < balls.size(); i++) {
     bool ballCollided = false;
 
     ballCollided = balls[i].collideWithWall();
@@ -140,6 +151,7 @@ void Idle() {
     // I'm still unsure if we need to redisplay here
     if (ballCollided) {
       redisplayNeeded = true;
+      break;
     }
   }
 

@@ -52,7 +52,7 @@ public:
   // checks for collision with the other ball, then updates
   // the velocity vector accordingly if a collision has occured
   // it then returns true if a collision has occured, and false if not
-  bool collide(Ball other);
+  bool collide(Ball * other);
 
   // checks for collision with the walls as defined above
   // then updates the velocity vector accordingly if a collision
