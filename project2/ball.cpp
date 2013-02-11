@@ -24,7 +24,6 @@ Ball::Ball(int x, int y, Color color) {
 }
 
 bool Ball::move(int t) {
-  // TODO: implement
   if(velocity.getMagnitude() <= 0) {
     return false;
   }
