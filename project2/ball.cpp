@@ -83,9 +83,7 @@ bool Ball::collide(Ball* other) {
     {
       Velocity r1 = Velocity(x, y);
       Velocity r2 = Velocity(other->x, other->y);
-      Velocity Normal = r1 - r2;
-      
-      cout << "Normal magnitude is " << Normal.getMagnitude() << endl;;      
+      Velocity Normal = r1 - r2;     
 
       double ScaleToTen = (double)-21 / (double)Normal.getMagnitude();
 
@@ -116,20 +114,16 @@ bool Ball::collide(Ball* other) {
 
     /* This are not real velocities, are vectors but I will use it 
      to use the velocity functions in geom2 */
-/*
-    Velocity r1 = Velocity(velocity.getX(), velocity.getY());
-    Velocity r2 = Velocity(other->velocity.getX(), other->velocity.getY());
+    Velocity r1 = Velocity(x, y);
+    Velocity r2 = Velocity(other->x, other->y);
     double absoluteV = sqrt(DotProduct(r1 - r2, r1 - r2));
 
-
     //Normal plane
-
+    cout << pow(absoluteV, -1) << endl;
     Velocity n = scalarProduct(pow(absoluteV, -1), r1 - r2);
     Velocity negativen = scalarProduct(-1, n);
 
-    //Normal Velocities
-
-    
+    //Normal Velocities    
     Velocity vn1 = scalarProduct( DotProduct( this->velocity, negativen ), negativen );
     Velocity vn2 = scalarProduct( DotProduct( other->velocity, n) , n);
 
@@ -144,42 +138,23 @@ bool Ball::collide(Ball* other) {
 
     this->velocity = vf1;
     other->velocity = vf2;
-*/
 
-    int t = (elapsedTime * 1000) + moveStartTime;
+    vf1.print();
+    vf2.print();
 
-    //other->x = 0;
-    //other->y = 0;
-    other->x_0 = other->x;
-    other->y_0 = other->y;
-    other->velocity.setXY(velocity.getX(), velocity.getY());
-    other->setStartTime(t);
-
-    velocity.setXY(0, 0);
-    setStartTime(t);
-
-
-
-    //other->move(t);
-    //move(t);
-
-//    cout << "Other magnitude: " << other.velocity.getMagnitude() << "\n";
-   
-/*
     // change the ball's velocity vector to match what it would be at
     // time of collision
     moveStartTime += elapsedTime * 1000;
     x_0 = x;
     y_0 = y;
-    //velocity.slow(elapsedTime);
+    velocity.slow(elapsedTime);
 
 
     // alter the other ball's velocity vector
     other->moveStartTime = moveStartTime;
     other->x_0 = other->x;
     other->y_0 = other->y;
-    //other.velocity.slow(other.elapsedTime);
-*/
+    other->velocity.slow(other->elapsedTime);
 
   }
 
@@ -192,10 +167,6 @@ bool Ball::collideWithWall() {
   if ((x < LEFT_WALL + BALL_RADIUS) || (x > RIGHT_WALL - BALL_RADIUS) ||
     (y < BOTTOM_WALL + BALL_RADIUS) || (y > TOP_WALL - BALL_RADIUS)) {
     hasCollided = true;
-
-    cout << x << " : " << y << " collide1\n";
-
-    velocity.print();
   }
 
   if (hasCollided) {
@@ -242,11 +213,7 @@ bool Ball::collideWithWall() {
     moveStartTime += elapsedTime * 1000;
     x_0 = x;
     y_0 = y;
-    velocity.print();
     velocity.slow(elapsedTime);
-    velocity.print();
-
-    cout << x << " : " << y << " collide2\n";
   }
 
    return hasCollided;

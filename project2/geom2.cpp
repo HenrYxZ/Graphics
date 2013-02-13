@@ -1,10 +1,10 @@
 #include "./geom2.h"
 
-int distance(int xA, int yA, int xB, int yB) {
+double distance(double xA, double yA, double xB, double yB) {
   return sqrt(pow((xB - xA), 2) + pow((yB - yA), 2));
 }
 
-int pythagorean(int x, int y) {
+double pythagorean(double x, double y) {
   return sqrt(pow(x, 2) + pow(y, 2));
 }
 
@@ -23,7 +23,7 @@ Velocity::Velocity() {
   this->magnitude = 0;
 }
 
-Velocity::Velocity(int x, int y) {
+Velocity::Velocity(double x, double y) {
   this->x = x;
   this->y = y;
   setDirectionRad();
@@ -36,7 +36,7 @@ bool Velocity::moving(double t) {
 
 // setting new x and y values will adjust the direction
 // and magnitude accordingly
-void Velocity::setXY(int x, int y) {
+void Velocity::setXY(double x, double y) {
   this->x = x;
   this->y = y;
   setDirectionRad();
@@ -97,7 +97,7 @@ void Velocity::reverse() {
   setXY(x * -1, y * -1);
 }
 
-void Velocity::scalarSelfProduct(int scalar) {
+void Velocity::scalarSelfProduct(double scalar) {
   setXY(scalar * x, scalar * y);
 }
 
@@ -106,7 +106,7 @@ void Velocity::print() {
     magnitude << " and degree of " << directionRad << "\n"; 
 }
 
-int DotProduct(Velocity vA, Velocity vB) {
+double DotProduct(Velocity vA, Velocity vB) {
   return vA.getX() * vB.getX() + vA.getY() * vB.getY(); 
 }
 
@@ -121,7 +121,7 @@ Velocity sumOfVelocities(Velocity vA, Velocity vB) {
   
 }
 
-Velocity scalarProduct(double scalar, Velocity v){
+Velocity scalarProduct( double scalar, Velocity v){
 
   Velocity answer = Velocity( (v.getX() * scalar ), (v.getY() * scalar ));
   return answer;
