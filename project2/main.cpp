@@ -109,21 +109,12 @@ void Idle() {
 
   // get the time in milliseconds
   currentTime = glutGet(GLUT_ELAPSED_TIME);
-
-  // first, we're going to move all of the balls if they need to be moved
-  for (int i = 0; i < balls.size(); i++) {
-    bool ballMoved;
-
-    ballMoved = balls[i].move(currentTime);
-
-    if (ballMoved) {
-      redisplayNeeded = true;
-      break;
-    }
-  }
-
   // next, we need to check for collisions among all pairs of balls
   for (int i = 0; i < balls.size(); i++) {
+    bool ballMoved;
+    bool wallCollide;
+    ballMoved = balls[i].move(currentTime);
+    wallCollide = balls[i].collideWithWall();
     // the bounds of these two loops will properly check all pairs once
     // and does not check both (i, j) and (j, i).
     for (int j = i + 1; j < balls.size(); ++j) {
@@ -138,23 +129,9 @@ void Idle() {
         break;
       }
     }
-  }
-
-  // Lastly, we will want to check for collisions with a wall for each
-  // ball we can technically do this in the first for loop of this function,
-  // but I vote that we put it here for readability purposes.
-  for (int i = 0; i < balls.size(); i++) {
-    bool ballCollided = false;
-
-    ballCollided = balls[i].collideWithWall();
-
-    // I'm still unsure if we need to redisplay here
-    if (ballCollided) {
+    if(ballMoved || wallCollide)
       redisplayNeeded = true;
-      break;
-    }
   }
-
   // we only want to post a redisplay if we really need it
   if (redisplayNeeded) {
     glutPostRedisplay();
