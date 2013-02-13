@@ -117,9 +117,10 @@ void Idle() {
     wallCollide = balls[i].collideWithWall();
     // the bounds of these two loops will properly check all pairs once
     // and does not check both (i, j) and (j, i).
-    for (int j = i + 1; j < balls.size(); ++j) {
-      bool ballCollided;
+    for (int j = 0; j < balls.size(); ++j) {
+      bool ballCollided = false;
 
+      if (i != j)
       ballCollided = balls[i].collide(&balls[j]);
 
       // I am still unsure if we need to redisplay after both
