@@ -12,12 +12,11 @@
 #define RIGHT_WALL 200
 #define LEFT_WALL -200
 
-enum Color { WHITE, BLACK, RED, GREEN, BLUE }; 
+enum Color { WHITE, BLACK, RED, GREEN, BLUE };
 
 // A handy Ball class
 class Ball {
-
-public:
+ public:
   // the current position of the ball
   int x, y;
 
@@ -32,8 +31,6 @@ public:
 
   // the time elapsed since last move
   double elapsedTime;
-
-  //bool velocityChanged;
 
   // allows the start time to be set from main
   // pretty much exclusively for setting the cueball's first
