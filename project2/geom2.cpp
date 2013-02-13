@@ -82,14 +82,14 @@ void Velocity::slow(double t) {
 }
 
 void Velocity::setDirectionRad() {
-  if(this->x == 0) {
-    if(this->y >= 0) {
+  if (this->x == 0) {
+    if (this->y >= 0) {
       directionRad = 3.14159 / 2;
     } else {
       directionRad = -3.14159 / 2;
     }
   } else {
-    directionRad = atan((double)y/x);
+    directionRad = atan(static_cast<double>(y/x));
   }
 }
 
@@ -102,12 +102,12 @@ void Velocity::scalarSelfProduct(double scalar) {
 }
 
 void Velocity::print() {
-  cout << "[" << x << ", " << y << "] with magnitude of " << 
-    magnitude << " and degree of " << directionRad << "\n"; 
+  cout << "[" << x << ", " << y << "] with magnitude of " <<
+    magnitude << " and degree of " << directionRad << "\n";
 }
 
 double DotProduct(Velocity vA, Velocity vB) {
-  return vA.getX() * vB.getX() + vA.getY() * vB.getY(); 
+  return vA.getX() * vB.getX() + vA.getY() * vB.getY();
 }
 
 float AngleBetween(Velocity vA, Velocity vB) {
@@ -115,21 +115,18 @@ float AngleBetween(Velocity vA, Velocity vB) {
 }
 
 Velocity sumOfVelocities(Velocity vA, Velocity vB) {
-
-  Velocity answer = Velocity( (vA.getX() + vB.getX() ), (vA.getY() + vB.getY() ));
+  Velocity answer = Velocity((vA.getX() + vB.getX()), (vA.getY() + vB.getY()));
   return answer;
-  
 }
 
-Velocity scalarProduct( double scalar, Velocity v){
-
-  Velocity answer = Velocity( (v.getX() * scalar ), (v.getY() * scalar ));
+Velocity scalarProduct(double scalar, Velocity v) {
+  Velocity answer = Velocity((v.getX() * scalar), (v.getY() * scalar));
   return answer;
 }
 
 // Operator override
 // Add this instance's value to other, and return a new instance
   // with the result.
-Velocity Velocity::operator-(Velocity &other) {
-    return Velocity(x - other.getX(), y - other.getY());
+Velocity Velocity::operator-(const Velocity &other) {
+    return Velocity(x - other.x, y - other.y);
 }

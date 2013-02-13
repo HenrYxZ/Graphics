@@ -19,7 +19,6 @@ struct mouse {
 
 // displays a ball object on the screen
 void DisplayBall(Ball toDisplay) {
-
   switch (toDisplay.color) {
     case WHITE:
       glColor3f(1.0, 1.0, 1.0);
@@ -41,7 +40,7 @@ void DisplayBall(Ball toDisplay) {
   }
 
   glBegin(GL_POLYGON);
-  for(double i = 0; i < 2 * PI; i += PI / 180) {
+  for (double i = 0; i < 2 * PI; i += PI / 180) {
     glVertex2f(toDisplay.x + cos(i) * BALL_RADIUS,
       toDisplay.y + sin(i) * BALL_RADIUS);
   }
@@ -78,14 +77,14 @@ void Mouse(int button, int state, int x, int y) {
         int vel_X = ((mouse.x - x)) / 2;
         int vel_Y = (-1 * (mouse.y - y)) / 2;
 
-        if(vel_X < (-1 * MAX_SPEED) )
+        if (vel_X < (-1 * MAX_SPEED) )
           vel_X = (-1 * MAX_SPEED);
-        if(vel_X >  MAX_SPEED)
+        if (vel_X >  MAX_SPEED)
           vel_X = MAX_SPEED;
 
-        if(vel_Y < (-1 * MAX_SPEED))
+        if (vel_Y < (-1 * MAX_SPEED))
           vel_Y = (-1 * MAX_SPEED);
-        if(vel_Y >  MAX_SPEED)
+        if (vel_Y >  MAX_SPEED)
           vel_Y =  MAX_SPEED;
 
         balls[0].velocity.setXY(vel_X, vel_Y);
@@ -130,7 +129,7 @@ void Idle() {
         break;
       }
     }
-    if(ballMoved || wallCollide)
+    if (ballMoved || wallCollide)
       redisplayNeeded = true;
   }
   // we only want to post a redisplay if we really need it
@@ -163,7 +162,7 @@ void Init(int argc, char** argv) {
 int main(int argc, char** argv) {
   Init(argc, argv);
 
-  // initialize 
+  // initialize
   mouse.dragging = false;
 
   // make a white cue  ball, the cueball will always occupy

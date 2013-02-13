@@ -31,6 +31,8 @@ float DegtoRad(float deg);
 // Velocity class
 class Velocity {
  public:
+  double x;
+  double y;
   Velocity();
   Velocity(double x, double y);
   double getX() { return x; }
@@ -45,10 +47,9 @@ class Velocity {
   void print();
 
   // operators
-  Velocity operator-(Velocity &other);
+  Velocity operator-(const Velocity &other);
+
  private:
-  double x;
-  double y;
   float directionRad;
   double magnitude;
   void setMagnitude() { magnitude = ALPHA * pythagorean(x, y); }
@@ -63,8 +64,8 @@ double DotProduct(Velocity vA, Velocity vB);
 // the angle between them. Returns an angle in radians.
 float AngleBetween(Velocity vA, Velocity vB);
 
-Velocity sumOfVelocities( Velocity vA, Velocity vB);
-Velocity scalarProduct( double scalar, Velocity v);
+Velocity sumOfVelocities(Velocity vA, Velocity vB);
+Velocity scalarProduct(double scalar, Velocity v);
 
 
 #endif
