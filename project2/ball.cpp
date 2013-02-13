@@ -62,14 +62,12 @@ bool Ball::collide(Ball* other) {
   bool hasCollided = false;
   
   // first, we need to check for a collision.
-  if (distance(x, y, other->x, other->y) <= (BALL_RADIUS * 2)) {
+  if (distance(x, y, other->x, other->y) < (double)(BALL_RADIUS * 2)) {
     hasCollided = true;
-  } else {
-    velocityChanged = false;
   }
 
   // Lots of commented tests
-  if (hasCollided && !velocityChanged) {
+  if (hasCollided) {
 
     // TODO: simulate a collision by updating the velocity vectors according
     // to the laws of physics.
@@ -81,7 +79,22 @@ bool Ball::collide(Ball* other) {
     cout << "Ball at (" << x << ", " << y << ") has collided with " <<
    "Ball at (" << other->x << ", " << other->y << ")\n"; 
 
-    velocityChanged = true;
+    // Move the two balls at least 10 away from each other
+    {
+      Velocity r1 = Velocity(x, y);
+      Velocity r2 = Velocity(other->x, other->y);
+      Velocity Normal = r1 - r2;
+      
+      cout << "Normal magnitude is " << Normal.getMagnitude() << endl;;      
+
+      double ScaleToTen = (double)-21 / (double)Normal.getMagnitude();
+
+      Normal = scalarProduct(ScaleToTen, Normal);
+
+      // lastly, move the other ball away
+      other->x = x + Normal.getX();
+      other->y = y + Normal.getY();
+    }
 /*
     // change the ball's velocity vector to match what it would be at
     // time of collision

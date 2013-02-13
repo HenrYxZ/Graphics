@@ -33,10 +33,10 @@ class Velocity {
  public:
   Velocity();
   Velocity(int x, int y);
-  int getX() { return x; }
-  int getY() { return y; }
-  int getMagnitude() { return magnitude; }
-  int getDirection() { return directionRad; }
+  double getX() { return x; }
+  double getY() { return y; }
+  double getMagnitude() { return magnitude; }
+  double getDirection() { return directionRad; }
   bool moving(double t);
   void setXY(int x, int y);
   void slow(double t);
@@ -47,10 +47,10 @@ class Velocity {
   // operators
   Velocity operator-(Velocity &other);
  private:
-  int x;
-  int y;
+  double x;
+  double y;
   float directionRad;
-  int magnitude;
+  double magnitude;
   void setMagnitude() { magnitude = ALPHA * pythagorean(x, y); }
   void setDirectionRad();
   void updateXY();
@@ -64,7 +64,7 @@ int DotProduct(Velocity vA, Velocity vB);
 float AngleBetween(Velocity vA, Velocity vB);
 
 Velocity sumOfVelocities( Velocity vA, Velocity vB);
-Velocity scalarProduct( int scalar, Velocity v);
+Velocity scalarProduct(double scalar, Velocity v);
 
 
 #endif

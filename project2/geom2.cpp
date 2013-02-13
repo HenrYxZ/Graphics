@@ -121,7 +121,7 @@ Velocity sumOfVelocities(Velocity vA, Velocity vB) {
   
 }
 
-Velocity scalarProduct( int scalar, Velocity v){
+Velocity scalarProduct(double scalar, Velocity v){
 
   Velocity answer = Velocity( (v.getX() * scalar ), (v.getY() * scalar ));
   return answer;
