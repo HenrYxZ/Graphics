@@ -7,12 +7,12 @@ using namespace std;
 
 void SceneGraph::CreateRoot(const char * name, uint32_t id) {
   cout << "createRoot:name=" << name << " id=" << id << endl;
-  // TODO
+  // TODO: create the root of the tree
 }
 
 void SceneGraph::CreateJoint(const char * name, uint32_t id) {
   cout << "createJoint:name=" << name << " id=" << id << endl;
-  // TODO
+  // TODO: add anoher node
 }
 
 void SceneGraph::CreateEndSite(const char * name, uint32_t id) {
