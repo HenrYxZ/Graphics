@@ -1,6 +1,7 @@
 #ifndef __JOINT_H__
 #define __JOINT_H__
 
+#include <stdio.h>
 #include <vector>
 #include <cstring>
 
@@ -8,6 +9,17 @@
 #include "./vec.h"
 
 using namespace std;
+
+typedef struct Node {
+  char * name;
+  uint32_t id;
+  float * offset;
+  uint32_t channel_num;
+  uint16_t channel_flags;
+  int * channel_order;
+  uint32_t index;
+  vector<Node*> children;
+} Node;
 
 class SceneGraph {
  public:
@@ -26,6 +38,19 @@ class SceneGraph {
   void SetFrameSize(uint32_t size);
   void AddFrame(float * data);
   void SetCurrentFrame(uint32_t frameNumber);
+
+ private:
+  Node * root;
+  vector<Node*> nodes;
+
+  // information about the frames
+  float ** frames;
+  uint32_t frames_num;
+  uint32_t frames_size;
+  float frames_time;
+
+  // the frame we currently are on
+  uint32_t frames_current;
 };
 
 
