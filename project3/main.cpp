@@ -82,7 +82,7 @@ void ComputeLookAt() {
   float vx;
   float vy;
   float vz;
-  float thetaR = theta*3.14159/180;
+  float thetaR = theta*PI/180;
   center = (bbox.max+bbox.min)/2.0f;
   up = Vec3f::makeVec(0.0f, 1.0f, 0.0f);
   eye = center+Vec3f::makeVec(0.0f, 0.75f*maxDist, -1.5f*maxDist);
