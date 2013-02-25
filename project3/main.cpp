@@ -42,6 +42,10 @@ SceneGraph sg;
 
 Vec3f eye, center, up;
 int waypoint = 1;
+float theta = 0;
+float z = 100;
+float zMin = 10;
+float zMax = 0x0fffffff;
 
 BoundingBox bbox = {{-100, -100, -100}, {100, 100, 100}};
 
@@ -74,15 +78,35 @@ void InitGL() {
 
 void ComputeLookAt() {
   float maxDist = (bbox.max-bbox.min).max();
+  float zoom = z/100;
+  float vx;
+  float vy;
+  float vz;
+  float thetaR = theta*PI/180;
   center = (bbox.max+bbox.min)/2.0f;
   up = Vec3f::makeVec(0.0f, 1.0f, 0.0f);
   eye = center+Vec3f::makeVec(0.0f, 0.75f*maxDist, -1.5f*maxDist);
   if (waypoint == 1) {
-    eye = center+Vec3f::makeVec(0.5f*maxDist, 0.75f*maxDist, 1.5f*maxDist);
+    vx = 0.5f*maxDist;
+    vy = 0.75f*maxDist;
+    vz = 1.5f*maxDist;
+    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
+                                  vy,
+                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
   } else if (waypoint == 2) {
-    eye = center+Vec3f::makeVec(0, 0.1f*maxDist, 1.5f*maxDist);
+    vx = 0;
+    vy = 0.1f*maxDist;
+    vz = 1.5f*maxDist;
+    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
+                                  vy,
+                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
   } else if (waypoint == 3) {
-    eye = center+Vec3f::makeVec(1.5f*maxDist, 0.1f*maxDist, 0);
+    vx = 1.5f*maxDist;
+    vy = 0.1f*maxDist;
+    vz = 0;
+    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
+                                  vy,
+                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
   }
   axisLen = maxDist*0.05f;
 }
@@ -304,34 +328,50 @@ void Keyboard(unsigned char key, int x, int y) {
   switch (key) {
     case '1':
       waypoint = 1;
+      theta = 0;
+      z = 100;
       ComputeLookAt();
       break;
     case '2':
       waypoint = 2;
+      theta = 0;
+      z = 100;
       ComputeLookAt();
       break;
     case '3':
       waypoint = 3;
+      theta = 0;
+      z = 100;
       ComputeLookAt();
       break;
     case 'z':
       // TODO
       cout << "Zoom in" << endl;
+      if (z > zMin)
+        --z;
       ComputeLookAt();
       break;
     case 'Z':
       // TODO
       cout << "Zoom out" << endl;
+      if (z < zMax)
+        ++z;
       ComputeLookAt();
       break;
     case 'j':
       // TODO
       cout << "Orbit left" << endl;
+      --theta;
+      if (theta <= -360)
+        theta += 360;
       ComputeLookAt();
       break;
     case 'k':
       // TODO
       cout << "Orbit right" << endl;
+      ++theta;
+      if (theta >= 360)
+        theta -= 360;
       ComputeLookAt();
       break;
     case ' ':
