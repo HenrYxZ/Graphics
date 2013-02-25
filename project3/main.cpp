@@ -196,6 +196,57 @@ void DrawBounds() {
   }
 }
 
+// The DFS keeps track of the parent in order to draw lines
+// from the parent to the child properly
+void DrawSceneHelper(Node * node, float * frame) {
+  // Push the transformation matrix first
+  glPushMatrix();
+
+  // debug spew to help out
+  cout << "Processing node " << node->id << '\n';
+
+  // First, translate by the offset amount
+  glTranslatef(node->offset[0], node->offset[1], node->offset[2]);
+
+  // Next, we need to transform our current matrix according to
+  // the channel data provided by the node and the frame
+  // now we can draw the vertex
+  glutSolidSphere(1, 80, 80);
+  glVertex3f(0, 0, 0);
+
+  // lastly, we need to recurse on node's children
+  for (int i = 0; i < node->children.size(); ++i) {
+    // place a vertex down to denote the start of a limb
+    glVertex3f(0, 0, 0);
+
+    // then draw the next joint
+    DrawSceneHelper(node->children[i], frame);
+  }
+
+  // then pop it so that we haven't ruined anything for the next joint
+  glPopMatrix();
+}
+
+// Kicks off our recursion
+void DrawScene() {
+  // change the color to red
+  glColor3f(1, 0, 0);
+
+  // we GL_LINES to draw each limb because maintaining
+  // parity as we recurse won't be that hard
+  glBegin(GL_LINES);
+
+  Node * root = sg.GetRoot();
+  float * frame = sg.GetCurrentFrame();
+
+  // put down a vertex so that there's a matching one in the root
+  glVertex3f(0, 0, 0);
+
+  DrawSceneHelper(root, frame);
+
+  glEnd();
+}
+
 void Display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -208,7 +259,10 @@ void Display() {
   SetDrawMode();
   DrawFloor(800, 800, 80, 80);
 
-  // TODO: draw scene graph and animate
+  // draws the entire scene
+  DrawScene();
+
+  // TODO: Animate
 
   if (showAxis) DrawAxis();
   if (showBounds) DrawBounds();
