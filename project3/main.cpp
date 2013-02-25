@@ -343,7 +343,7 @@ int main(int argc, char *argv[]) {
   processCommandLine(argc, argv);
 
   showMenu();
-  
+
   InitGL();
 
   glutMainLoop();
