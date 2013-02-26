@@ -39,13 +39,15 @@ void Idle();
 SceneGraph sg;
 
 #define PI 3.14159265f
+#define zInitial 1000.0f
+#define zSensitivity 1
 
 Vec3f eye, center, up;
 int waypoint = 1;
 float theta = 0;
-float z = 100;
-float zMin = 10;
-float zMax = 0x0fffffff;
+float z = zInitial;
+const float zMin = 10;
+const float zMax = 0x0fffffff;
 
 BoundingBox bbox = {{-100, -100, -100}, {100, 100, 100}};
 
@@ -78,7 +80,7 @@ void InitGL() {
 
 void ComputeLookAt() {
   float maxDist = (bbox.max-bbox.min).max();
-  float zoom = z/100;
+  float zoom = z/zInitial;
   float vx;
   float vy;
   float vz;
@@ -384,33 +386,37 @@ void Keyboard(unsigned char key, int x, int y) {
     case '1':
       waypoint = 1;
       theta = 0;
-      z = 100;
+      z = zInitial;
       ComputeLookAt();
       break;
     case '2':
       waypoint = 2;
       theta = 0;
-      z = 100;
+      z = zInitial;
       ComputeLookAt();
       break;
     case '3':
       waypoint = 3;
       theta = 0;
-      z = 100;
+      z = zInitial;
       ComputeLookAt();
       break;
     case 'z':
       // TODO
       cout << "Zoom in" << endl;
-      if (z > zMin)
-        --z;
+      if (z > (zMin + (10 * zSensitivity)))
+        z -= 10 * zSensitivity;
+      else
+        z = zMin;
       ComputeLookAt();
       break;
     case 'Z':
       // TODO
       cout << "Zoom out" << endl;
-      if (z < zMax)
-        ++z;
+      if (z < (zMax - (10 * zSensitivity)))
+        z += 10 * zSensitivity;
+      else
+        z = zMax;
       ComputeLookAt();
       break;
     case 'j':
