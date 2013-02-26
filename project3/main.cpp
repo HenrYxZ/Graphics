@@ -234,9 +234,42 @@ void DrawSceneHelper(Node * node, float * frame) {
 
   // TODO: we need to transform our current matrix according to
   // the channel data provided by the node and the frame
+  for (int i = 0; i < node->channel_num; ++i) {
+    // this is the type of transformation we need to apply
+    int transform = node->channel_order[i];
+
+    // the current channel's value in the frame
+    float channel = frame[node->index + i];
+
+    // perform the transformation
+    switch (transform) {
+      case BVH_XPOS_IDX:
+        glTranslatef(channel, 0, 0);
+        break;
+      case BVH_YPOS_IDX:
+        glTranslatef(0, channel, 0);
+        break;
+      case BVH_ZPOS_IDX:
+        glTranslatef(0, 0, channel);
+        break;
+      case BVH_XROT_IDX:
+        glRotatef(channel, 1, 0, 0);
+        break;
+      case BVH_YROT_IDX:
+        glRotatef(channel, 0, 1, 0);
+        break;
+      case BVH_ZROT_IDX:
+        glRotatef(channel, 0, 0, 1);
+        break;
+      default:
+        // this should never get triggered, but if it does
+        // the appropriate thing to do is nothing
+        break;
+     }
+  }
 
   // first lets place a sphere here to make the joint looks more realistic
-  glutSolidSphere(2, 80, 80);
+  glutSolidSphere(0.5, 80, 80);
 
   // now we can draw the limbs
   glBegin(GL_LINES);
@@ -269,7 +302,7 @@ void DrawScene() {
   glColor3f(1, 0, 0);
 
   // set the line width to something reasonable
-  glLineWidth(2);
+  glLineWidth(3);
 
   Node * root = sg.GetRoot();
   float * frame = sg.GetCurrentFrame();
