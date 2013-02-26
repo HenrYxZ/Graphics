@@ -172,3 +172,7 @@ uint32_t SceneGraph::GetCurrentFrameIndex() {
 uint32_t SceneGraph::GetNumFrames() {
   return frames_num;
 }
+
+float SceneGraph::GetFrameTime() {
+  return frames_time;
+}

@@ -44,6 +44,7 @@ class SceneGraph {
   float* GetCurrentFrame();
   uint32_t GetCurrentFrameIndex();
   uint32_t GetNumFrames();
+  float GetFrameTime();
 
  private:
   Node * root;
