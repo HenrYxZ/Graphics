@@ -232,18 +232,30 @@ void DrawSceneHelper(Node * node, float * frame) {
   // First, translate by the offset amount
   glTranslatef(node->offset[0], node->offset[1], node->offset[2]);
 
-  // Next, we need to transform our current matrix according to
+  // TODO: we need to transform our current matrix according to
   // the channel data provided by the node and the frame
-  // now we can draw the vertex
-  glutSolidSphere(1, 80, 80);
-  glVertex3f(0, 0, 0);
+
+  // first lets place a sphere here to make the joint looks more realistic
+  glutSolidSphere(2, 80, 80);
+
+  // now we can draw the limbs
+  glBegin(GL_LINES);
+
+  for (int i = 0; i < node->children.size(); ++i) {
+    Node * child = node->children[i];
+
+    // since lines pairs vertices, first we put a vertex here
+    glVertex3f(0, 0, 0);
+
+    // then we place another where the other joint is
+    glVertex3f(child->offset[0], child->offset[1], child->offset[2]);
+  }
+
+  glEnd();
 
   // lastly, we need to recurse on node's children
   for (int i = 0; i < node->children.size(); ++i) {
-    // place a vertex down to denote the start of a limb
-    glVertex3f(0, 0, 0);
-
-    // then draw the next joint
+    // then process the next joint
     DrawSceneHelper(node->children[i], frame);
   }
 
@@ -256,19 +268,14 @@ void DrawScene() {
   // change the color to red
   glColor3f(1, 0, 0);
 
-  // we GL_LINES to draw each limb because maintaining
-  // parity as we recurse won't be that hard
-  glBegin(GL_LINES);
+  // set the line width to something reasonable
+  glLineWidth(2);
 
   Node * root = sg.GetRoot();
   float * frame = sg.GetCurrentFrame();
 
-  // put down a vertex so that there's a matching one in the root
-  glVertex3f(0, 0, 0);
-
+  // and we start the DFS
   DrawSceneHelper(root, frame);
-
-  glEnd();
 }
 
 void Display() {

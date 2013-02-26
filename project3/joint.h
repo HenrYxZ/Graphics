@@ -39,6 +39,10 @@ class SceneGraph {
   void AddFrame(float * data);
   void SetCurrentFrame(uint32_t frameNumber);
 
+  // Small number of accessor methods
+  Node* GetRoot();
+  float* GetCurrentFrame();
+
  private:
   Node * root;
   vector<Node*> nodes;

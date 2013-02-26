@@ -156,3 +156,11 @@ void SceneGraph::AddFrame(float * data) {
 void SceneGraph::SetCurrentFrame(uint32_t frameNumber) {
   frames_current = frameNumber;
 }
+
+Node* SceneGraph::GetRoot() {
+  return root;
+}
+
+float* SceneGraph::GetCurrentFrame() {
+  return frames[frames_current];
+}
