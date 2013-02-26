@@ -458,6 +458,25 @@ void Keyboard(unsigned char key, int x, int y) {
 void Idle() {
 }
 
+void Mouse(int button, int state, int x, int y) {
+  if (button == 3) {
+    if (state == GLUT_DOWN) {
+      if (z > (zMin + (50 * zSensitivity))) {
+        z -= 50 * zSensitivity;
+        ComputeLookAt();
+      }
+    }
+  }
+  if (button == 4) {
+    if (state == GLUT_DOWN) {
+      if (z < (zMax - (50 * zSensitivity))) {
+        z += 50 * zSensitivity;
+        ComputeLookAt();
+      }
+    }
+  }
+}
+
 void processCommandLine(int argc, char *argv[]) {
   if (argc>1) {
     snprintf(&(filename[0]), strlen(argv[1])+1, "%s", argv[1]);
@@ -494,6 +513,7 @@ int main(int argc, char *argv[]) {
   glutReshapeFunc(Resize);
   glutKeyboardFunc(Keyboard);
   glutIdleFunc(Idle);
+  glutMouseFunc(Mouse);
 
   processCommandLine(argc, argv);
 
