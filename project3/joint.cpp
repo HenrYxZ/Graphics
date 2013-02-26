@@ -164,3 +164,11 @@ Node* SceneGraph::GetRoot() {
 float* SceneGraph::GetCurrentFrame() {
   return frames[frames_current];
 }
+
+uint32_t SceneGraph::GetCurrentFrameIndex() {
+  return frames_current;
+}
+
+uint32_t SceneGraph::GetNumFrames() {
+  return frames_num;
+}

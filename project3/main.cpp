@@ -326,7 +326,22 @@ void Display() {
   // draws the entire scene
   DrawScene();
 
-  // TODO: Animate
+  // The following is a simple animation style that loops
+  // through the frames as fast as the computer can process
+  // display calls (which ends up being a pretty nice speed)
+  // TODO: Make a better animation style that uses the speed given
+  // by sg.GetFrameTime();
+  uint32_t nextFrame  = sg.GetCurrentFrameIndex() + 1;
+
+  if (nextFrame >= sg.GetNumFrames()) {
+    // Loop around the animation if we finished it
+    nextFrame = 0;
+  }
+
+  sg.SetCurrentFrame(nextFrame);
+
+  // since the animation never stops, always post a redisplay
+  glutPostRedisplay();
 
   if (showAxis) DrawAxis();
   if (showBounds) DrawBounds();

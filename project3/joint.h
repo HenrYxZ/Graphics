@@ -42,6 +42,8 @@ class SceneGraph {
   // Small number of accessor methods
   Node* GetRoot();
   float* GetCurrentFrame();
+  uint32_t GetCurrentFrameIndex();
+  uint32_t GetNumFrames();
 
  private:
   Node * root;
