@@ -49,6 +49,10 @@ float z = zInitial;
 const float zMin = 10;
 const float zMax = 0x0fffffff;
 
+bool right_button_down = false;
+int mouse_x;
+int mouse_y;
+
 BoundingBox bbox = {{-100, -100, -100}, {100, 100, 100}};
 
 char filename[1000];
@@ -475,6 +479,24 @@ void Mouse(int button, int state, int x, int y) {
       }
     }
   }
+  if (button == 2) {
+    if (state == GLUT_DOWN) {
+      mouse_x = x;
+      mouse_y = y;
+      right_button_down = true;
+    } else {
+      right_button_down = false;
+    }
+  }
+}
+
+void MouseMotion(int x, int y) {
+  if (right_button_down) {
+    theta += (static_cast<float>(mouse_x) - static_cast<float>(x)) / 2.0;
+    mouse_x = x;
+    mouse_y = y;
+    ComputeLookAt();
+  }
 }
 
 void processCommandLine(int argc, char *argv[]) {
@@ -514,6 +536,7 @@ int main(int argc, char *argv[]) {
   glutKeyboardFunc(Keyboard);
   glutIdleFunc(Idle);
   glutMouseFunc(Mouse);
+  glutMotionFunc(MouseMotion);
 
   processCommandLine(argc, argv);
 
