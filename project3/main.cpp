@@ -44,7 +44,8 @@ SceneGraph sg;
 
 Vec3f eye, center, up;
 int waypoint = 1;
-float theta = 0;
+float theta = 0;  // rotation about y axis
+float phi = 0;    // rotation about x axis
 
 // zoom values
 float z = zInitial;
@@ -84,6 +85,34 @@ void InitGL() {
   Resize(window_width, window_height);
 }
 
+Vec3f ComputeEye(float vx, float vy, float vz) {
+  // change degrees to radians
+  float thetaR = theta*PI/180;
+  float phiR = phi*PI/180;
+
+  // for cleaner equation
+  float cst = cos(thetaR);
+  float snt = sin(thetaR);
+  float csp = cos(phiR);
+  float snp = sin(phiR);
+
+  float xd = vx / sqrt(vx*vx + vz*vz);
+  float zd = vz / sqrt(vx*vx + vz*vz);
+
+  // derived from multiple rotation matrices to allow for clean
+  // rotations left/right and up/down
+  Vec3f rotv = Vec3f::makeVec(
+             vx*(cst*(zd*zd + xd*xd*csp) + snt*(-1*xd*zd + xd*zd*csp))
+             + vy*(xd*cst*snp + zd*snt*snp)
+             + vz*(cst*(-1*xd*zd + xd*zd*csp) + snt*(xd*xd + zd*zd*csp)),
+                              vx*(-1*xd*snp) + vy*(csp) + vz*(-1*zd*snp),
+             vx*(cst*(-1*xd*zd + xd*zd*csp) - snt*(zd*zd + xd*xd*csp))
+             + vy*(-1*xd*snt*snp + zd*cst*snp)
+             + vz*(cst*(xd*xd + zd*zd*csp)
+               - snt*(-1*xd*zd + xd*zd*csp)));
+  return rotv;
+}
+
 void ComputeLookAt() {
   float maxDist = (bbox.max-bbox.min).max();
 
@@ -96,9 +125,6 @@ void ComputeLookAt() {
   float vy;
   float vz;
 
-  // theta value in radians
-  float thetaR = theta*PI/180;
-
   center = (bbox.max+bbox.min)/2.0f;
   up = Vec3f::makeVec(0.0f, 1.0f, 0.0f);
   eye = center+Vec3f::makeVec(0.0f, 0.75f*maxDist, -1.5f*maxDist);
@@ -106,24 +132,20 @@ void ComputeLookAt() {
     vx = 0.5f*maxDist;
     vy = 0.75f*maxDist;
     vz = 1.5f*maxDist;
-    // derived from rotation matrix about y axis
-    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
-                                  vy,
-                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
+    Vec3f ev = ComputeEye(vx, vy, vz);
+    eye = (center+ev)*zoom;
   } else if (waypoint == 2) {
     vx = 0;
     vy = 0.1f*maxDist;
     vz = 1.5f*maxDist;
-    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
-                                  vy,
-                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
+    Vec3f ev = ComputeEye(vx, vy, vz);
+    eye = (center+ev)*zoom;
   } else if (waypoint == 3) {
     vx = 1.5f*maxDist;
     vy = 0.1f*maxDist;
     vz = 0;
-    eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
-                                  vy,
-                                  vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
+    Vec3f ev = ComputeEye(vx, vy, vz);
+    eye = (center+ev)*zoom;
   }
   axisLen = maxDist*0.05f;
 }
@@ -401,18 +423,21 @@ void Keyboard(unsigned char key, int x, int y) {
     case '1':
       waypoint = 1;
       theta = 0;
+      phi = 0;
       z = zInitial;
       ComputeLookAt();
       break;
     case '2':
       waypoint = 2;
       theta = 0;
+      phi = 0;
       z = zInitial;
       ComputeLookAt();
       break;
     case '3':
       waypoint = 3;
       theta = 0;
+      phi = 0;
       z = zInitial;
       ComputeLookAt();
       break;
@@ -448,6 +473,18 @@ void Keyboard(unsigned char key, int x, int y) {
       ++theta;
       if (theta >= 360)
         theta -= 360;
+      ComputeLookAt();
+      break;
+    case 'u':
+      --phi;
+      if (phi < -45)
+        phi = -45;
+      ComputeLookAt();
+      break;
+    case 'm':
+      ++phi;
+      if (phi > 45)
+        phi = 45;
       ComputeLookAt();
       break;
     case ' ':
@@ -508,8 +545,13 @@ void MouseMotion(int x, int y) {
   // while the right mouse button is pressed and the mouse is moving
   if (right_button_down) {
     theta += (static_cast<float>(mouse_x) - static_cast<float>(x)) / 2.0;
+    phi += (static_cast<float>(mouse_y) - static_cast<float>(y)) / 2.0;
     mouse_x = x;
     mouse_y = y;
+    if (phi < -45)
+      phi = -45;
+    if (phi > 45)
+      phi = 45;
     ComputeLookAt();
   }
 }
