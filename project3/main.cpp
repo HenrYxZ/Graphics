@@ -45,6 +45,8 @@ SceneGraph sg;
 Vec3f eye, center, up;
 int waypoint = 1;
 float theta = 0;
+
+// zoom values
 float z = zInitial;
 const float zMin = 10;
 const float zMax = 0x0fffffff;
@@ -84,11 +86,19 @@ void InitGL() {
 
 void ComputeLookAt() {
   float maxDist = (bbox.max-bbox.min).max();
+
+  // Divide zoom by the zInitial. Sets initial distance to 1.
   float zoom = z/zInitial;
+
+  // Initial waypoint vector components. These variables make calculating
+  // rotation both cleaner and easier.
   float vx;
   float vy;
   float vz;
+
+  // theta value in radians
   float thetaR = theta*PI/180;
+
   center = (bbox.max+bbox.min)/2.0f;
   up = Vec3f::makeVec(0.0f, 1.0f, 0.0f);
   eye = center+Vec3f::makeVec(0.0f, 0.75f*maxDist, -1.5f*maxDist);
@@ -96,6 +106,7 @@ void ComputeLookAt() {
     vx = 0.5f*maxDist;
     vy = 0.75f*maxDist;
     vz = 1.5f*maxDist;
+    // derived from rotation matrix about y axis
     eye = ((center+Vec3f::makeVec(vx*cos(thetaR) + vz*sin(thetaR),
                                   vy,
                                   vz*cos(thetaR) - vx*sin(thetaR)))*zoom);
@@ -463,6 +474,7 @@ void Idle() {
 }
 
 void Mouse(int button, int state, int x, int y) {
+  // if mouse scroll up
   if (button == 3) {
     if (state == GLUT_DOWN) {
       if (z > (zMin + (50 * zSensitivity))) {
@@ -471,6 +483,7 @@ void Mouse(int button, int state, int x, int y) {
       }
     }
   }
+  // if mouse scroll down
   if (button == 4) {
     if (state == GLUT_DOWN) {
       if (z < (zMax - (50 * zSensitivity))) {
@@ -479,6 +492,7 @@ void Mouse(int button, int state, int x, int y) {
       }
     }
   }
+  // if right mouse button is pressed
   if (button == 2) {
     if (state == GLUT_DOWN) {
       mouse_x = x;
@@ -491,6 +505,7 @@ void Mouse(int button, int state, int x, int y) {
 }
 
 void MouseMotion(int x, int y) {
+  // while the right mouse button is pressed and the mouse is moving
   if (right_button_down) {
     theta += (static_cast<float>(mouse_x) - static_cast<float>(x)) / 2.0;
     mouse_x = x;
