@@ -41,7 +41,6 @@ void SceneGraph::CreateJoint(const char * name, uint32_t id) {
     joint->name[i] = name[i];
   }
 
-
   // lastly initialize an empty offset array
   joint->offset = new float[3];
 

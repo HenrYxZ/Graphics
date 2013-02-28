@@ -243,13 +243,10 @@ void DrawSceneHelper(Node * node, float * frame) {
   // Push the transformation matrix first
   glPushMatrix();
 
-  // debug spew to help out
-  cout << "Processing node " << node->id << '\n';
-
   // First, translate by the offset amount
   glTranslatef(node->offset[0], node->offset[1], node->offset[2]);
 
-  // TODO: we need to transform our current matrix according to
+  // now we need to transform our current matrix according to
   // the channel data provided by the node and the frame
   for (int i = 0; i < node->channel_num; ++i) {
     // this is the type of transformation we need to apply
@@ -417,8 +414,6 @@ void Keyboard(unsigned char key, int x, int y) {
       ComputeLookAt();
       break;
     case 'z':
-      // TODO
-      cout << "Zoom in" << endl;
       if (z > (zMin + (10 * zSensitivity)))
         z -= 10 * zSensitivity;
       else
@@ -426,8 +421,6 @@ void Keyboard(unsigned char key, int x, int y) {
       ComputeLookAt();
       break;
     case 'Z':
-      // TODO
-      cout << "Zoom out" << endl;
       if (z < (zMax - (10 * zSensitivity)))
         z += 10 * zSensitivity;
       else
@@ -435,16 +428,12 @@ void Keyboard(unsigned char key, int x, int y) {
       ComputeLookAt();
       break;
     case 'j':
-      // TODO
-      cout << "Orbit left" << endl;
       --theta;
       if (theta <= -360)
         theta += 360;
       ComputeLookAt();
       break;
     case 'k':
-      // TODO
-      cout << "Orbit right" << endl;
       ++theta;
       if (theta >= 360)
         theta -= 360;
