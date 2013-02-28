@@ -4,4 +4,5 @@ Additional features:
   - Constant zMin and zMax set minimum and maximum camera eye distances from the center.
   - Easily change how sensitive zooming is by changing "zSensitivity" defined at the top of main.
   - Use the mouse scroll wheel to zoom in and out.
-  - Right click and drag in the window to rotate about the y axis.
+  - Keyboard commands 'u' and 'm' rotate the scene up and down.
+  - Right click and drag in the window to rotate the scene.
