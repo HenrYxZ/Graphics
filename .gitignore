@@ -16,3 +16,7 @@
 *billiards*
 *billiards
 *billiards.exe
+
+#eclipse settings
+*.project
+*.cproject
