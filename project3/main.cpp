@@ -65,6 +65,11 @@ float axisLen = 1.0f;
 
 bool showBounds = false;
 
+// animation global variables
+bool play = false;
+int previus_time = 0;
+int actual_time = 0;
+
 void SetLighting();
 
 void InitGL() {
@@ -75,6 +80,8 @@ void InitGL() {
   glDepthMask(GL_TRUE);
   glDepthFunc(GL_LEQUAL);
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+  glEnable(GL_LINE_SMOOTH);
+  glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -111,6 +118,7 @@ Vec3f ComputeEye(float vx, float vy, float vz) {
              + vz*(cst*(xd*xd + zd*zd*csp)
                - snt*(-1*xd*zd + xd*zd*csp)));
   return rotv;
+  glutPostRedisplay();
 }
 
 void ComputeLookAt() {
@@ -367,17 +375,32 @@ void Display() {
   // display calls (which ends up being a pretty nice speed)
   // TODO: Make a better animation style that uses the speed given
   // by sg.GetFrameTime();
-  uint32_t nextFrame  = sg.GetCurrentFrameIndex() + 1;
 
-  if (nextFrame >= sg.GetNumFrames()) {
-    // Loop around the animation if we finished it
-    nextFrame = 0;
+  // animate only if we are playing
+  if (play == true) {
+    actual_time = glutGet(GLUT_ELAPSED_TIME);
+
+    // number of milliseconds of each frame
+    int frame_time = static_cast<int>(sg.GetFrameTime()*100);
+    // is time to move to the next frame
+    if (actual_time - previus_time >= frame_time) {
+      uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
+
+      if (nextFrame >= sg.GetNumFrames()) {
+      // Loop around the animation if we finished it
+        nextFrame = 0;
+      }
+
+      sg.SetCurrentFrame(nextFrame);
+
+      // since the animation never stops, always post a redisplay
+      glutPostRedisplay();
+      usleep(frame_time);
+    }
+
+    // store the present time to be the previus on next loop
+    previus_time = actual_time;
   }
-
-  sg.SetCurrentFrame(nextFrame);
-
-  // since the animation never stops, always post a redisplay
-  glutPostRedisplay();
 
   if (showAxis) DrawAxis();
   if (showBounds) DrawBounds();
@@ -477,9 +500,12 @@ void Keyboard(unsigned char key, int x, int y) {
       ComputeLookAt();
       break;
     case ' ':
-      // TODO
-      cout << "Start/stop animation" << endl;
+      if (play == true)
+        play = false;
+      else
+        play = true;
       break;
+
     case 'a':
       showAxis=!showAxis;
       break;
@@ -497,7 +523,15 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 
 void Idle() {
-}
+  // this is the first time the function of time is called
+  /*
+  if (previus_time == 0) {
+    previus_time = glutGet(GLUT_ELAPSED_TIME);
+    return;
+  }
+  */
+}  // end of idle
+
 
 void Mouse(int button, int state, int x, int y) {
   // if mouse scroll up
