@@ -381,7 +381,7 @@ void Display() {
     actual_time = glutGet(GLUT_ELAPSED_TIME);
 
     // number of milliseconds of each frame
-    int frame_time = static_cast<int>(sg.GetFrameTime()*100);
+    int frame_time = static_cast<int>(sg.GetFrameTime()*1000);
     // is time to move to the next frame
     if (actual_time - previus_time >= frame_time) {
       uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
@@ -395,7 +395,7 @@ void Display() {
 
       // since the animation never stops, always post a redisplay
       glutPostRedisplay();
-      usleep(frame_time);
+      // usleep(frame_time);
     }
 
     // store the present time to be the previus on next loop
@@ -540,6 +540,7 @@ void Mouse(int button, int state, int x, int y) {
       if (z > (zMin + (50 * zSensitivity))) {
         z -= 50 * zSensitivity;
         ComputeLookAt();
+        glutPostRedisplay();
       }
     }
   }
@@ -549,6 +550,7 @@ void Mouse(int button, int state, int x, int y) {
       if (z < (zMax - (50 * zSensitivity))) {
         z += 50 * zSensitivity;
         ComputeLookAt();
+        glutPostRedisplay();
       }
     }
   }
@@ -576,6 +578,7 @@ void MouseMotion(int x, int y) {
     if (phi > 45)
       phi = 45;
     ComputeLookAt();
+    glutPostRedisplay();
   }
 }
 
