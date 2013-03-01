@@ -370,38 +370,6 @@ void Display() {
   // draws the entire scene
   DrawScene();
 
-  // The following is a simple animation style that loops
-  // through the frames as fast as the computer can process
-  // display calls (which ends up being a pretty nice speed)
-  // TODO: Make a better animation style that uses the speed given
-  // by sg.GetFrameTime();
-
-  // animate only if we are playing
-  if (play == true) {
-    actual_time = glutGet(GLUT_ELAPSED_TIME);
-
-    // number of milliseconds of each frame
-    int frame_time = static_cast<int>(sg.GetFrameTime()*1000);
-    // is time to move to the next frame
-    if (actual_time - previus_time >= frame_time) {
-      uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
-
-      if (nextFrame >= sg.GetNumFrames()) {
-      // Loop around the animation if we finished it
-        nextFrame = 0;
-      }
-
-      sg.SetCurrentFrame(nextFrame);
-
-      // since the animation never stops, always post a redisplay
-      glutPostRedisplay();
-      // usleep(frame_time);
-    }
-
-    // store the present time to be the previus on next loop
-    previus_time = actual_time;
-  }
-
   if (showAxis) DrawAxis();
   if (showBounds) DrawBounds();
 
@@ -523,13 +491,29 @@ void Keyboard(unsigned char key, int x, int y) {
 }
 
 void Idle() {
-  // this is the first time the function of time is called
-  /*
-  if (previus_time == 0) {
-    previus_time = glutGet(GLUT_ELAPSED_TIME);
-    return;
+  if (play == true) {
+    actual_time = glutGet(GLUT_ELAPSED_TIME);
+
+    // number of milliseconds of each frame
+    int frame_time = static_cast<int>(sg.GetFrameTime()*1000);
+    // is time to move to the next frame
+    if (actual_time - previus_time >= frame_time) {
+      uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
+
+      if (nextFrame >= sg.GetNumFrames()) {
+      // Loop around the animation if we finished it
+        nextFrame = 0;
+      }
+
+      sg.SetCurrentFrame(nextFrame);
+      // store the present time to be the previus on next loop
+      previus_time = actual_time;
+      // since the animation never stops, always post a redisplay
+      // glutPostRedisplay();
+      // usleep(frame_time);
+    }
   }
-  */
+  glutPostRedisplay();
 }  // end of idle
 
 
