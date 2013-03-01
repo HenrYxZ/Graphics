@@ -508,9 +508,6 @@ void Idle() {
       sg.SetCurrentFrame(nextFrame);
       // store the present time to be the previus on next loop
       previus_time = actual_time;
-      // since the animation never stops, always post a redisplay
-      // glutPostRedisplay();
-      // usleep(frame_time);
     }
   }
   glutPostRedisplay();
@@ -587,6 +584,8 @@ void showMenu() {
   cout << "Z - zoom out" << endl;
   cout << "j - rotate left" << endl;
   cout << "k - rotate right" << endl;
+  cout << "u - rotate up" << endl;
+  cout << "m - rotate down" << endl;
   cout << "[SPACE] - start/stop" << endl;
 }
 
