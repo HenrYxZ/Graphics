@@ -69,6 +69,7 @@ bool showBounds = false;
 bool play = false;
 int previus_time = 0;
 int actual_time = 0;
+float frameRate = 1.0f;
 
 void SetLighting();
 
@@ -406,6 +407,7 @@ void Keyboard(unsigned char key, int x, int y) {
 
   float sgn = 1.0f;
   Vec3f v;
+  int milseconds;
 
   switch (key) {
     case '1':
@@ -473,6 +475,17 @@ void Keyboard(unsigned char key, int x, int y) {
       else
         play = true;
       break;
+    case 's':
+      frameRate = frameRate * 1.2;
+      milseconds = frameRate * sg.GetFrameTime() * 1000;
+      cout << "milliseconds per frame: " << milseconds << endl;
+    break;
+    case 'f':
+      frameRate = frameRate * 0.8;
+      milseconds = frameRate * sg.GetFrameTime() * 1000;
+      cout << "milliseconds per frame: " << milseconds << endl;
+    break;
+
 
     case 'a':
       showAxis=!showAxis;
@@ -495,7 +508,7 @@ void Idle() {
     actual_time = glutGet(GLUT_ELAPSED_TIME);
 
     // number of milliseconds of each frame
-    int frame_time = static_cast<int>(sg.GetFrameTime()*1000);
+    int frame_time = static_cast<int>(sg.GetFrameTime()*1000*frameRate);
     // is time to move to the next frame
     if (actual_time - previus_time >= frame_time) {
       uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
@@ -586,6 +599,8 @@ void showMenu() {
   cout << "k - rotate right" << endl;
   cout << "u - rotate up" << endl;
   cout << "m - rotate down" << endl;
+  cout << "f - faster animation by 20%" << endl;
+  cout << "s - slower animation by -20%" << endl;
   cout << "[SPACE] - start/stop" << endl;
 }
 
