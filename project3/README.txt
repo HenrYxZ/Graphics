@@ -11,3 +11,4 @@ Additional features:
   - Use the mouse scroll wheel to zoom in and out.
   - Keyboard commands 'u' and 'm' rotate the scene up and down.
   - Right click and drag in the window to rotate the scene.
+  - Keyboard commands 's' and 'f' change animation speed. 
