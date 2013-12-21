@@ -69,7 +69,7 @@ bool showBounds = false;
 bool play = false;
 int previus_time = 0;
 int actual_time = 0;
-float frameRate = 1.0f;
+float frameRate = 1.0;
 
 void SetLighting();
 
@@ -407,7 +407,7 @@ void Keyboard(unsigned char key, int x, int y) {
 
   float sgn = 1.0f;
   Vec3f v;
-  int milseconds;
+  float milseconds;
 
   switch (key) {
     case '1':
@@ -509,9 +509,14 @@ void Idle() {
 
     // number of milliseconds of each frame
     int frame_time = static_cast<int>(sg.GetFrameTime()*1000*frameRate);
+    printf("frame time %d", frame_time);
+    // frames passed
+    int frames_passed = static_cast<int>((actual_time - previus_time) /
+      frame_time);
+
     // is time to move to the next frame
-    if (actual_time - previus_time >= frame_time) {
-      uint32_t nextFrame  = sg.GetCurrentFrameIndex()+1;
+    if (frames_passed > 0) {
+      uint32_t nextFrame  = sg.GetCurrentFrameIndex() + frames_passed;
 
       if (nextFrame >= sg.GetNumFrames()) {
       // Loop around the animation if we finished it
