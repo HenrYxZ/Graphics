@@ -509,7 +509,6 @@ void Idle() {
 
     // number of milliseconds of each frame
     int frame_time = static_cast<int>(sg.GetFrameTime()*1000*frameRate);
-    printf("frame time %d", frame_time);
     // frames passed
     int frames_passed = static_cast<int>((actual_time - previus_time) /
       frame_time);
